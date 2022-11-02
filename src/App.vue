@@ -23,10 +23,8 @@
 				isLoggedIn: false
 			}
 		},
-		onMounted() {
-			console.log("hi");
-			let auth = getAuth();
-			onAuthStateChanged(auth, (user) => {
+		mounted() {
+			onAuthStateChanged(getAuth(), (user) => {
 				if (user) this.isLoggedIn = true;
 				else this.isLoggedIn = false;
 			});
