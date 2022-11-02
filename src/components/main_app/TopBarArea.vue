@@ -6,10 +6,12 @@
         <div id="top-bar_user">
             <p>{{ userName }}</p>
             <div ref="ddc_button" class="img-drop-down">
-                <img :src=userPhotoURL />
+                <img :src=userPhotoURL :on-error=ProfilePicError />
                 <div ref="ddc_content" class="drop-down-content">
-                    <p>Option 1</p>
-                    <p>Option 2</p>
+                    <div @click="LogOut" id="logout-btn" class="drop-down-element">
+                        <img src="@/assets/img/logout.svg" />
+                        <span>Log Out</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -33,6 +35,13 @@
                     if (source.contains(event.target)) content.style.display = 'block';
                     else content.style.display = 'none';
                 }
+            },
+            ProfilePicError() {
+                this.userPhotoURL = "img/no-avatar.svg";
+            },
+            LogOut() {
+                if(window.confirm('Are you sure you want to sign out'))
+                    getAuth().signOut();
             }
         },
         data() {
@@ -65,11 +74,31 @@
 
     #top-bar_title {
         font-size: 1.75rem;
+        color: #ffffff;
     }
 
     #top-bar_user {
         display: flex;
         align-items: center;
         justify-content: space-evenly;
+        color: #ffffff;
+    }
+
+    #logout-btn {
+        padding: 10px 0px;
+        margin: 10px 0px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        color: white;
+
+        @include auth-button($color-outside: hsl(0, 86%, 46%));
+		&:hover {
+			background-color: hsl(0, 86%, 36%);
+		}
+
+        & > img {
+            max-width: 30px;
+        }
     }
 </style>
