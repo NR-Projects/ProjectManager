@@ -1,6 +1,12 @@
 .img-drop-down {
     position: relative;
     display: inline-block;
+
+	img {
+		margin: 0 20px;
+		width: 50px;
+		border-radius: 50%;
+	}
 }
 
 .drop-down-content {
