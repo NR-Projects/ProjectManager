@@ -1,6 +1,8 @@
 <template>
-    <TopBarArea />
-    <ProjectsArea />
+    <div id="main-app">
+        <TopBarArea />
+        <ProjectsArea />
+    </div>
 </template>
 
 <script lang="ts">
@@ -17,3 +19,11 @@
         }
     });
 </script>
+
+<style lang="scss" scoped>
+    #main-app {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(51,6,89,1) 0%, rgba(75,2,144,1) 100%);
+    }
+</style>
