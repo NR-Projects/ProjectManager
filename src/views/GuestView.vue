@@ -112,9 +112,9 @@
 
 	#google-auth-btn {
 		@include auth-button($color-outside: hsl(147, 100%, 50%));
-			&:hover {
-				background-color: hsl(138, 100%, 42%);
-			}
+		&:hover {
+			background-color: hsl(138, 100%, 42%);
+		}
     }
 
     #github-auth-btn {
