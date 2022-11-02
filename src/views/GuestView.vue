@@ -10,7 +10,7 @@
 		<!-- "About" -->
 		<div id="app-about_guest">
 			<p>
-				This is a web app that helps you to manage your projects and share to others for easy collaboration
+				This is a web app that helps you to manage your projects
 			</p>
 		</div>
 
