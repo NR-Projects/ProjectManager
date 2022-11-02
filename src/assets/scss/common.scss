@@ -2,7 +2,7 @@
     position: relative;
     display: inline-block;
 
-	img {
+	& > img {
 		margin: 0 20px;
 		width: 50px;
 		border-radius: 50%;
@@ -12,9 +12,14 @@
 .drop-down-content {
 	display: none;
 	position: absolute;
-	background-color: #f9f9f9;
 	min-width: 160px;
+	border-radius: 8px;
+	background-color: #f9f9f914;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	padding: 12px 16px;
 	z-index: 1;
+}
+
+.drop-down-element {
+	height: 1rem;
 }
