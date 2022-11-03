@@ -1,6 +1,7 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import store from './store'
+import { createApp } from 'vue';
+import App from './App.vue';
+import store from './store';
+import router from './router';
 
 // include services here
 import '@/services/FirebaseService';
@@ -8,4 +9,5 @@ import '@/services/FirebaseService';
 
 createApp(App)
     .use(store)
-    .mount('#app')
+    .use(router)
+    .mount('#app');
