@@ -64,6 +64,7 @@
 <style lang="scss" scoped>
     #top-bar {
         width: 100%;
+        height: 15%;
         background: #2f2f2f56;
 
         display: flex;
