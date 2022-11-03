@@ -1,5 +1,5 @@
 <template>
-    <div class="project-item card-view">
+    <div @click="goToProjectView" class="project-item card-view">
         <p>{{ Name }}</p>
         <div>
             <div>
@@ -29,6 +29,9 @@
                 if (_date)
                     return _date.toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
                 return "Invalid Date";
+            },
+            goToProjectView() {
+                this.$router.push({ name: 'project', params: { projectId: 1 } });
             }
         }
     });
