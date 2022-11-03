@@ -1,14 +1,14 @@
 <template>
     <div @click="goToProjectView" class="project-item card-view">
-        <p>{{ Name }}</p>
+        <p>{{ Data?.name }}</p>
         <div>
             <div>
                 <span>Date Created:</span>
-                <span>{{ formatDate(Date_Created) }}</span>
+                <span>{{ formatDate(Data?.date_created) }}</span>
             </div>
             <div>
                 <span>Last Accessed:</span>
-                <span>{{ formatDate(Date_Last_Accessed) }}</span>
+                <span>{{ formatDate(Data?.date_last_accessed) }}</span>
             </div>
         </div>
     </div>
@@ -16,13 +16,12 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue';
+    import { Project } from '@/models/';
 
     export default defineComponent({
         name: 'ProjectItem',
         props: {
-            Name: String,
-            Date_Created: Date,
-            Date_Last_Accessed: Date
+            Data: Project
         },
         methods: {
             formatDate(_date: Date|null|undefined): string {
@@ -31,7 +30,7 @@
                 return "Invalid Date";
             },
             goToProjectView() {
-                this.$router.push({ name: 'project', params: { projectId: 1 } });
+                this.$router.push({ name: 'project', params: { projectId: this.Data?.id } });
             }
         }
     });

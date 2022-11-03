@@ -6,9 +6,7 @@
                 <ProjectItem
                     v-for="sample_project in sampleProjects"
                     :key="sample_project.id"
-                    :Name="sample_project.name"
-                    :Date_Created="sample_project.date_created"
-                    :Date_Last_Accessed="sample_project.date_last_accessed" />
+                    :Data="sample_project" />
             </div>
         </div>
     </div>
@@ -17,7 +15,7 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import ProjectItem from '@/components/main_app/ProjectItem.vue';
-    import Project from '@/models/Project';
+    import { Project } from '@/models/';
 
     export default defineComponent({
         name: 'ProjectsArea',
