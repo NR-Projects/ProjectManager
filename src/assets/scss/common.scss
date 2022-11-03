@@ -1,6 +1,7 @@
 .img-drop-down {
     position: relative;
     display: inline-block;
+	cursor: pointer;
 
 	& > img {
 		margin: 0 20px;
@@ -18,8 +19,22 @@
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	padding: 12px 16px;
 	z-index: 1;
+
+	& > .drop-down-element {
+		height: 1rem;
+	}
 }
 
-.drop-down-element {
-	height: 1rem;
+
+.card-view {
+	transition: all 0.5s ease;
+	outline: 1px solid #ffffff;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+
+	&:hover {
+		transition: all 0.5s ease;
+		cursor: pointer;
+		scale: 1.04;
+		box-shadow: 0px 8px 16px 0px rgba(10, 84, 212, 0.925);
+	}
 }
