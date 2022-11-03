@@ -36,8 +36,8 @@
 
 <style lang="scss" scoped>
     .project-item {
-        width: 310px;
-        height: 200px;
+        width: 275px;
+        height: 175px;
         background: #e0e0e0;
         margin: 0.5rem;
         display: flex;
