@@ -1,35 +1,21 @@
-import ProjectTask from './ProjectTask';
+import BaseModel from './BaseModel';
 
-class Project {
+class Project extends BaseModel {
 
     id: string;
-    name: string;
     date_created: Date;
-    date_last_accessed: Date;
+    date_last_updated: Date;
 
     desc: string | undefined;
-    project_tasks: Array<ProjectTask> | undefined
 
-    constructor(_id: string, _name: string, _date_created: Date, _date_last_accessed: Date, _desc?: string, _project_tasks?: Array<ProjectTask>) {
+    constructor(_id: string, _name: string, _date_created: Date, _date_last_updated: Date, _desc?: string) {
+        super(_name);
+
         this.id = _id;
-        this.name = _name;
         this.date_created = _date_created;
-        this.date_last_accessed = _date_last_accessed;
+        this.date_last_updated = _date_last_updated;
         
         if (_desc) this.desc = _desc;
-        if (_project_tasks) this.project_tasks = _project_tasks;
-    }
-
-    addProjectTask(project_task: ProjectTask): void {
-        if (!this.project_tasks) return;
-        this.project_tasks.push(project_task);
-    }
-
-    removeProjectTask(project_task: ProjectTask): void {
-        if (!this.project_tasks) return;
-        const r_index = this.project_tasks.indexOf(project_task);
-        if (r_index < 0) return;
-        delete this.project_tasks[r_index];
     }
 }
 
