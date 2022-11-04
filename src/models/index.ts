@@ -1,3 +1,5 @@
 import Project from './Project';
+import ProjectTask from './ProjectTask';
+import TaskItem, { TaskStatus } from './TaskItem';
 
-export { Project };
+export { Project, ProjectTask, TaskItem, TaskStatus };
