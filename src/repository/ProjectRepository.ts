@@ -1,21 +1,79 @@
-import { getFirestore, onSnapshot, collection, addDoc, getDocs, updateDoc, deleteDoc, serverTimestamp, Timestamp, query, where, orderBy } from "firebase/firestore";
+import { getAuth } from 'firebase/auth';
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    updateDoc,
+    deleteDoc,
+    serverTimestamp,
+    query,
+    where } from "firebase/firestore";
 import requires from './IRequirement';
 import { Project } from '@/models';
 
-function addProject(require: requires) {
-    //
+async function addProject(project: Project): Promise<void> {
+    const { name, desc } = project;
+
+    let uid = getAuth().currentUser?.uid;
+
+    if ( !uid ) return;
+
+    await addDoc(collection(getFirestore(), "users", uid, "projects"), {
+        name: name,
+        desc: desc,
+        date_created: serverTimestamp(),
+        date_last_updated: serverTimestamp()
+    });
 }
 
-function readAllProjects(require: requires) {
-    //
+async function readAllProjects(): Promise<Array<Project>> {
+    let projects = Array<Project>();
+
+    let uid = getAuth().currentUser?.uid;
+
+    if ( !uid ) return projects;
+
+    const querySnapshot = await getDocs(collection(getFirestore(), "users", uid, "projects"));
+    querySnapshot.forEach((doc) => {
+        let doc_fields = doc.data();
+        projects.push(
+            new Project(
+                doc.id,
+                doc_fields.name,
+                doc_fields.date_created,
+                doc_fields.date_last_updated,
+                doc_fields.desc
+            )
+        );
+    });
+
+    return projects;
 }
 
-function updateProject(require: requires) {
-    //
+async function updateProject(oldData: Project, newData: Project): Promise<void> {
+    let uid = getAuth().currentUser?.uid;
+
+    if ( !uid ) return;
+
+    const q = query(collection(getFirestore(), "users", uid, "categories"), where("name", "==", oldData.name));
+    (await getDocs(q)).forEach(async (doc) => {
+        await updateDoc(doc.ref, {
+            name: newData.name,
+            desc: newData.desc
+        });
+    });
 }
 
-function deleteProject(require: requires) {
-    //
+async function deleteProject(data: Project): Promise<void> {
+    let uid = getAuth().currentUser?.uid;
+
+    if ( !uid ) return;
+
+    const q = query(collection(getFirestore(), "user_data", uid, "categories"), where("name", "==", data.name));
+    (await getDocs(q)).forEach(async (doc) => {
+        await deleteDoc(doc.ref);
+    });
 }
 
 export { addProject, readAllProjects, updateProject, deleteProject };
