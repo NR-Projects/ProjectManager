@@ -1,5 +1,4 @@
 export default interface requires {
-    projectId: string;
+    projectId?: string;
     projectTaskId?: string;
-    taskItemId?: string;
 }
