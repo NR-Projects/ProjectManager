@@ -16,3 +16,16 @@
         outline-offset: 15px;
     }
 }
+
+@mixin basic-button($color-outline, $color-body-hover) {
+    display: inline-block;
+    transition: all 1200ms cubic-bezier(0.19, 1, 0.22, 1);
+    background-color: rgba($color-body-hover, 0);
+    outline: 1px solid $color-outline;
+    border-radius: 3px;
+
+    &:hover {
+        background-color: rgba($color-body-hover, 1);
+        cursor: pointer;
+    }
+}
