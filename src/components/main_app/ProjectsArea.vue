@@ -22,11 +22,11 @@
                 <div class="modal-inputs">
                     <div class="modal-input">
                         <label>Project Name:</label>
-                        <input type="text" />
+                        <input v-model="add_project_name" type="text" />
                     </div>
                     <div class="modal-input">
                         <label>Project Description:</label>
-                        <input type="text" />
+                        <input v-model="add_project_desc" type="text" />
                     </div>
                 </div>
                 <div class="modal-options">
@@ -96,7 +96,8 @@
                 projects,
                 submitAddProject, loadProjects,
                 openModal, closeModal,
-                modal_ref
+                modal_ref,
+                add_project_name, add_project_desc
             };
         },
         mounted() {
