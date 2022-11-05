@@ -26,13 +26,11 @@
         name: 'TopBarArea',
         methods: {
             ToggleDropDown() {
-                // eslint-disable-next-line
-                let source: any = this.$refs.ddc_button;
-                // eslint-disable-next-line
-                let content: any = this.$refs.ddc_content;
+                let source = this.$refs.ddc_button as HTMLElement;
+                let content = this.$refs.ddc_content as HTMLElement;
 
-                window.onclick = function(event) {
-                    if (source.contains(event.target)) content.style.display = 'block';
+                window.onclick = function(event: MouseEvent) {
+                    if (source.contains(event.target as Node)) content.style.display = 'block';
                     else content.style.display = 'none';
                 }
             },
