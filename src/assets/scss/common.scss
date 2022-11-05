@@ -91,6 +91,7 @@
 
 			div {
 				padding: 8px 15px;
+				margin: 10px 0;
 
 				&:nth-child(1) {
 					@include basic-button(#d71e1e, #cb0930);
