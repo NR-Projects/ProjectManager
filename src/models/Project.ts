@@ -2,20 +2,20 @@ import BaseModel from './BaseModel';
 
 class Project extends BaseModel {
 
-    id: string;
-    date_created: Date;
-    date_last_updated: Date;
+    id: string | undefined;
+    date_created: Date | undefined;
+    date_last_updated: Date | undefined;
 
     desc: string | undefined;
 
-    constructor(_id: string, _name: string, _date_created: Date, _date_last_updated: Date, _desc?: string) {
+    constructor(_name: string, _desc: string, _date_created?: Date, _date_last_updated?: Date, _id?: string) {
         super(_name);
 
-        this.id = _id;
-        this.date_created = _date_created;
-        this.date_last_updated = _date_last_updated;
-        
-        if (_desc) this.desc = _desc;
+        this.desc = _desc;
+
+        if (_id) this.id = _id;
+        if (_date_created) this.date_created = _date_created;
+        if (_date_last_updated) this.date_last_updated = _date_last_updated;
     }
 }
 
