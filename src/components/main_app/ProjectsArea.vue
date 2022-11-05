@@ -73,6 +73,7 @@
                 // Get and process data
                 const newProject: Project = new Project(add_project_name.value, add_project_desc.value);
 
+                // Check Validity
                 if ( !isValid(DataStatus.New, newProject, projects.value) ) return;
 
                 // Send to firebase

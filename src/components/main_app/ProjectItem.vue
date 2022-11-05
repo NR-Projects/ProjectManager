@@ -1,15 +1,19 @@
 <template>
     <div @click="goToProjectView" class="project-item card-view">
         <p>{{ Data?.name }}</p>
-        <div>
+        <div class="project-dates">
             <div>
                 <span>Date Created:</span>
                 <span>{{ formatDate(Data?.date_created) }}</span>
             </div>
             <div>
                 <span>Last Accessed:</span>
-                <span>{{ formatDate(Data?.date_last_accessed) }}</span>
+                <span>{{ formatDate(Data?.date_last_updated) }}</span>
             </div>
+        </div>
+        <div class="project-options">
+            <img src="@/assets/img/edit-item.svg" />
+            <img src="@/assets/img/delete-item.svg" />
         </div>
     </div>
 </template>
@@ -52,9 +56,19 @@
             font-size: 1.25rem;
         }
 
-        & > div > div {
+        & > .project-dates > div {
             & > span {
                 font-size: 0.75rem;
+            }
+        }
+
+        & > .project-options {
+            height: fit-content;
+            display: flex;
+            
+            & > img {
+                width: 20px;
+                margin: 10px;
             }
         }
     }
