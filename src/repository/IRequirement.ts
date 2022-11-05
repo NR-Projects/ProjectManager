@@ -1,4 +1,4 @@
-export default interface requires {
+export interface requires {
     projectId?: string;
     projectTaskId?: string;
 }

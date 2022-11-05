@@ -1,7 +1,7 @@
 import { addProject, readAllProjects, updateProject, deleteProject } from './ProjectRepository';
 import { addProjectTask, readAllProjectTasks, updateProjectTask, deleteProjectTask } from './ProjectTaskRepository';
 import { addTaskItem, readAllTaskItems, updateTaskItem, deleteTaskItem } from './TaskItemRepository';
-import requires from './IRequirement';
+import { requires } from './IRequirement';
 import { BaseModel } from '@/models';
 
 function isValid(dataStatus: DataStatus, data: BaseModel, loadedDataList: Array<BaseModel>, newData?: BaseModel): boolean {
@@ -14,7 +14,7 @@ function isValid(dataStatus: DataStatus, data: BaseModel, loadedDataList: Array<
             break;
     }
 
-    for (let item of loadedDataList) {
+    for (const item of loadedDataList) {
         if (item.isEqual(data)) return false;
     }
 

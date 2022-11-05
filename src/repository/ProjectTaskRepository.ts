@@ -1,4 +1,4 @@
-import requires from './IRequirement';
+import { requires } from './IRequirement';
 import { ProjectTask } from '@/models';
 
 function addProjectTask(require: requires) {

@@ -9,13 +9,12 @@ import {
     serverTimestamp,
     query,
     where } from "firebase/firestore";
-import requires from './IRequirement';
 import { Project } from '@/models';
 
 async function addProject(project: Project): Promise<void> {
     const { name, desc } = project;
 
-    let uid = getAuth().currentUser?.uid;
+    const uid = getAuth().currentUser?.uid;
 
     if ( !uid ) return;
 
@@ -28,15 +27,15 @@ async function addProject(project: Project): Promise<void> {
 }
 
 async function readAllProjects(): Promise<Array<Project>> {
-    let projects = Array<Project>();
+    const projects = Array<Project>();
 
-    let uid = getAuth().currentUser?.uid;
+    const uid = getAuth().currentUser?.uid;
 
     if ( !uid ) return projects;
 
     const querySnapshot = await getDocs(collection(getFirestore(), "users", uid, "projects"));
     querySnapshot.forEach((doc) => {
-        let doc_fields = doc.data();
+        const doc_fields = doc.data();
         projects.push(
             new Project(
                 doc.id,
@@ -52,7 +51,7 @@ async function readAllProjects(): Promise<Array<Project>> {
 }
 
 async function updateProject(oldData: Project, newData: Project): Promise<void> {
-    let uid = getAuth().currentUser?.uid;
+    const uid = getAuth().currentUser?.uid;
 
     if ( !uid ) return;
 
@@ -66,7 +65,7 @@ async function updateProject(oldData: Project, newData: Project): Promise<void> 
 }
 
 async function deleteProject(data: Project): Promise<void> {
-    let uid = getAuth().currentUser?.uid;
+    const uid = getAuth().currentUser?.uid;
 
     if ( !uid ) return;
 
