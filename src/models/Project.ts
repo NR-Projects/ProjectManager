@@ -2,11 +2,11 @@ import BaseModel from './BaseModel';
 
 class Project extends BaseModel {
 
+    desc: string;
+
     id: string | undefined;
     date_created: Date | undefined;
     date_last_updated: Date | undefined;
-
-    desc: string | undefined;
 
     constructor(_name: string, _desc: string, _date_created?: Date, _date_last_updated?: Date, _id?: string) {
         super(_name);
