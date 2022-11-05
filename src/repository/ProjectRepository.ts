@@ -38,11 +38,11 @@ async function readAllProjects(): Promise<Array<Project>> {
         const doc_fields = doc.data();
         projects.push(
             new Project(
-                doc.id,
                 doc_fields.name,
-                doc_fields.date_created,
-                doc_fields.date_last_updated,
-                doc_fields.desc
+                doc_fields.desc,
+                doc_fields.date_created.toDate(),
+                doc_fields.date_last_updated.toDate(),
+                doc.id,
             )
         );
     });
