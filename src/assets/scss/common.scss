@@ -1,3 +1,6 @@
+@use 'mixins' as *;
+@use 'animation' as *;
+
 .img-drop-down {
     position: relative;
     display: inline-block;
@@ -36,5 +39,86 @@
 		cursor: pointer;
 		scale: 1.04;
 		box-shadow: 0px 8px 16px 0px rgba(10, 84, 212, 0.925);
+	}
+}
+
+.modal {
+	display: block;
+	position: fixed;
+	z-index: 1;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	background: #000000b7;
+	transform: scale(0);
+	transition: all 0.5s ease;
+
+	& > .modal-content {
+		top: 10vh;
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		background: linear-gradient(180deg, rgb(40, 20, 56) 0%, rgba(75,2,144,1) 100%);
+		margin: auto;
+		width: 500px;
+		height: 250px;
+		border-radius: 5px;
+		color: #ffffff;
+
+		& > .modal-title {
+			font-size: 1.25rem;
+
+		}
+
+		& > .modal-inputs {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-evenly;
+			flex-grow: 1;
+
+			& > .modal-input {
+				label {
+					margin-right: 0.6rem;
+				}
+			}
+		}
+
+		& > .modal-options {
+			display: flex;
+			justify-content: space-evenly;
+			padding: 10px;
+
+			div {
+				padding: 8px 15px;
+
+				&:nth-child(1) {
+					@include basic-button(#d71e1e, #cb0930);
+				}
+				&:nth-child(2) {
+					@include basic-button(#2bff01, #4ce11a);
+				}
+			}
+		}
+	}
+}
+
+.modal.open-modal {
+	transform: scale(0);
+    animation: OpenPopup 1s cubic-bezier(0.16, 0.85, 0.4, 1) forwards;
+
+	& > .modal-content {
+		transform: scale(0);
+        animation: ZoomIn .5s .8s cubic-bezier(0.16, 0.85, 0.440, 1) forwards;
+	}
+}
+
+.modal.close-modal {
+	transform: scale(1);
+    animation: ClosePopup 1s .3s cubic-bezier(0.16, 0.85, 0.440, 1) forwards;
+
+	& > .modal-content {
+		transform: scale(1);
+        animation: ZoomOut .5s cubic-bezier(0.16, 0.85, 0.440, 1) forwards;
 	}
 }
