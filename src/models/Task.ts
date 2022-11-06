@@ -1,6 +1,6 @@
 import BaseModel from "./BaseModel";
 
-class TaskItem extends BaseModel{
+class Task extends BaseModel{
     id: string;
     desc: string;
     status: TaskStatus;
@@ -25,5 +25,5 @@ enum TaskStatus {
     Finished
 }
 
-export default TaskItem;
+export default Task;
 export { TaskStatus };
