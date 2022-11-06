@@ -35,7 +35,7 @@
                 return "Invalid Date";
             },
             goToProjectView() {
-                this.$router.push({ name: 'project', params: { projectId: this.Data?.id } });
+                this.$router.push({ name: 'project' });
             },
             _editProject() {
                 this.$emit('edit_project', this.Data);

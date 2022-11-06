@@ -9,10 +9,9 @@ const routes: Array<RouteRecordRaw> = [
         component: HomeView
     },
     {
-        path: '/project/:projectId',
+        path: '/project',
         name: 'project',
-        component: ProjectView,
-        props: true
+        component: ProjectView
     }
 ]
 
