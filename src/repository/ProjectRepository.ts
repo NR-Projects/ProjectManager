@@ -55,11 +55,13 @@ async function updateProject(oldData: Project, newData: Project): Promise<void> 
 
     if ( !uid ) return;
 
-    const q = query(collection(getFirestore(), "users", uid, "categories"), where("name", "==", oldData.name));
+    const q = query(collection(getFirestore(), "users", uid, "projects"), where("name", "==", oldData.name));
     (await getDocs(q)).forEach(async (doc) => {
         await updateDoc(doc.ref, {
             name: newData.name,
-            desc: newData.desc
+            desc: newData.desc,
+            date_created: oldData.date_created,
+            date_last_updated: serverTimestamp()
         });
     });
 }
@@ -69,7 +71,7 @@ async function deleteProject(data: Project): Promise<void> {
 
     if ( !uid ) return;
 
-    const q = query(collection(getFirestore(), "user_data", uid, "categories"), where("name", "==", data.name));
+    const q = query(collection(getFirestore(), "users", uid, "projects"), where("name", "==", data.name));
     (await getDocs(q)).forEach(async (doc) => {
         await deleteDoc(doc.ref);
     });
