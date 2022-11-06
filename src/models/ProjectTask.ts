@@ -1,9 +1,9 @@
 import BaseModel from "./BaseModel";
 
 class ProjectTask extends BaseModel{
-    id: string;
+    id?: string;
 
-    constructor(_id: string, _name: string) {
+    constructor(_name: string, _id?: string) {
         super(_name);
 
         this.id = _id;
