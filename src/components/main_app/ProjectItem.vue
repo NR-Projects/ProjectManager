@@ -1,6 +1,6 @@
 <template>
-    <div @click="goToProjectView" class="project-item card-view">
-        <p>{{ Data?.name }}</p>
+    <div class="project-item card-view">
+        <p @click="goToProjectView">{{ Data?.name }}</p>
         <div class="project-dates">
             <div>
                 <span>Date Created:</span>
@@ -12,15 +12,16 @@
             </div>
         </div>
         <div class="project-options">
-            <img src="@/assets/img/edit-item.svg" />
-            <img src="@/assets/img/delete-item.svg" />
+            <img @click="_editProject" src="@/assets/img/edit-item.svg" />
+            <img @click="_deleteProject" src="@/assets/img/delete-item.svg" />
         </div>
     </div>
 </template>
 
 <script lang="ts">
-    import { defineComponent } from 'vue';
+    import { defineComponent, Ref } from 'vue';
     import { Project } from '@/models/';
+    import { deleteProject } from '@/repository';
 
     export default defineComponent({
         name: 'ProjectItem',
@@ -35,6 +36,14 @@
             },
             goToProjectView() {
                 this.$router.push({ name: 'project', params: { projectId: this.Data?.id } });
+            },
+            _editProject() {
+                this.$emit('edit_project', this.Data);
+            },
+            _deleteProject() {
+                if(window.confirm('Are you sure you want to delete this')) {
+                    deleteProject(this.Data!);
+                }
             }
         }
     });
@@ -67,6 +76,7 @@
             display: flex;
             
             & > img {
+                cursor: pointer;
                 width: 20px;
                 margin: 10px;
             }

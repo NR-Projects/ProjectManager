@@ -10,15 +10,14 @@
                 <ProjectItem
                     v-for="project in projects"
                     :key="project.id"
-                    :Data="project" />
+                    :Data="project"
+                    @edit_project="(Data) => editProjModal(Data)" />
             </div>
         </div>
-    </div>
-
-    <ProjectModal
-        ref="modal_comp_ref"
-        title="Add New Project"
-        type="add"/>    
+        <keep-alive>
+            <ProjectModal ref="modal_comp_ref"/>
+        </keep-alive>
+    </div>    
 </template>
 
 <script lang="ts">
@@ -48,13 +47,18 @@
             };
 
             const openModal = () => {
-                (modal_comp_ref.value as any).openModal();
+                console.log("err");
+                (modal_comp_ref.value as any).openModal('Add New Project', false);
+            }
+
+            const editProjModal = (Data: Project) => {
+                (modal_comp_ref.value as any).openModal('Edit Existing Project', true, Data);
             }
 
             return {
                 projects,
                 loadProjects,
-                openModal,
+                openModal, editProjModal,
                 modal_comp_ref
             };
         },
