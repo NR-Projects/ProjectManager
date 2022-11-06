@@ -3,20 +3,25 @@ import { addProjectTask, readAllProjectTasks, updateProjectTask, deleteProjectTa
 import { addTaskItem, readAllTaskItems, updateTaskItem, deleteTaskItem } from './TaskItemRepository';
 import { requires } from './IRequirement';
 import { BaseModel } from '@/models';
+import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
-function isValid(dataStatus: DataStatus, data: BaseModel, loadedDataList: Array<BaseModel>, newData?: BaseModel): boolean {
+async function isValid(dataStatus: DataStatus, newData: BaseModel, data?: BaseModel): Promise<boolean> {
     switch (dataStatus) {
         case DataStatus.New:
             break;
         case DataStatus.Existing:
-            if (!newData) return false;
-            if (data.isEqual(newData)) return false;
+            if (!data) return false;
+            if (newData.isEqual(data)) return false;
             break;
     }
 
-    for (const item of loadedDataList) {
-        if (item.isEqual(data)) return false;
-    }
+    let valid = true;
+    const q = query(collection(getFirestore(), "users", getAuth().currentUser!.uid, "projects"), where("name", "==", newData.name));
+    (await getDocs(q)).forEach((doc) => {
+        valid = false;
+        return;
+    });
 
     return true;
 }
