@@ -17,7 +17,7 @@
                     <div @click="closeModal">
                         <span>Close</span>
                     </div>
-                    <div @click="submitAddProject">
+                    <div @click="submitProject">
                         <span>Submit</span>
                     </div>
                 </div>
@@ -42,17 +42,17 @@
 
             // Variables
             const title = ref('');
-            const type = ref('');
             const input_project_name = ref('');
             const input_project_desc = ref('');
             
             let projectLoaded: Project;
+            let type: string;
 
-            const submitAddProject = () => {
+            const submitProject = () => {
                 // Get and process data
                 const newProject: Project = new Project(input_project_name.value, input_project_desc.value);
 
-                switch (type.value) {
+                switch (type) {
                     case 'Add':
                         {
                             // Check Validity
@@ -87,11 +87,11 @@
                 if ( isEdit ) {
                     input_project_name.value = data!.name;
                     input_project_desc.value = data!.desc;
-                    type.value = 'Edit';
+                    type = 'Edit';
                     projectLoaded = data!;
                 }
                 else {
-                    type.value = 'Add';
+                    type = 'Add';
                 }
 
                 // Open modal
@@ -104,7 +104,7 @@
             };
 
             return {
-                submitAddProject,
+                submitProject,
                 openModal, closeModal,
                 modal_ref,
                 input_project_name, input_project_desc, title
