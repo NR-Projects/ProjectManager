@@ -47,7 +47,6 @@
             };
 
             const openModal = () => {
-                console.log("err");
                 (modal_comp_ref.value as any).openModal('Add New Project', false);
             }
 
