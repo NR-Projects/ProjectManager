@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, Ref } from 'vue';
+    import { defineComponent } from 'vue';
     import { Project } from '@/models/';
     import { deleteProject } from '@/repository';
 
@@ -35,6 +35,7 @@
                 return "Invalid Date";
             },
             goToProjectView() {
+                this.$store.dispatch("setProjectLoaded", this.Data);
                 this.$router.push({ name: 'project' });
             },
             _editProject() {
