@@ -23,16 +23,19 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, ref } from 'vue';
+    import { defineComponent, onMounted, ref } from 'vue';
     import { ProjectTask } from '@/models';
-import { toggleModal } from '@/utilities';
-import { requires, addProjectTask, DataStatus, isValid, updateProjectTask } from '@/repository';
+    import { toggleModal } from '@/utilities';
+    import { requires, addProjectTask, DataStatus, isValid, updateProjectTask } from '@/repository';
 
     export default defineComponent({
         name: 'ProjectTaskModal',
         components: {
         },
-        setup() {
+        props: {
+            projectId: String
+        },
+        setup(props) {
             const modal_ref = ref(null);
             const title = ref('');
             const input_project_task_name = ref('');
@@ -46,7 +49,7 @@ import { requires, addProjectTask, DataStatus, isValid, updateProjectTask } from
                 const newProjectTask: ProjectTask = new ProjectTask(input_project_task_name.value);
 
                 let r: requires = {
-                    projectId: ''
+                    projectId: projectIdLoaded
                 }
 
                 switch (type) {
@@ -73,6 +76,9 @@ import { requires, addProjectTask, DataStatus, isValid, updateProjectTask } from
                         }
                         break;
                 }
+
+                // Close modal
+                toggleModal('close', modal_ref.value as unknown as HTMLElement);
             };
 
             const openModal = (_title: string, isEdit: boolean, data?: ProjectTask) => {
@@ -95,6 +101,10 @@ import { requires, addProjectTask, DataStatus, isValid, updateProjectTask } from
                 // Close modal
                 toggleModal('close', modal_ref.value as unknown as HTMLElement);
             };
+
+            onMounted(() => {
+                projectIdLoaded = props.projectId!;
+            });
 
             return {
                 submitProjectTask,

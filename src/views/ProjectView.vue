@@ -5,10 +5,16 @@
             <p>{{ project_desc }}</p>
         </div>
         <div class="project-task-container">
-            <div class="project-task-add">
+            <div class="project-task-tools">
+                <div @click="loadProjectTasks" class="project-task-tool">
+                    <img src="@/assets/img/refresh.svg" width="30" />
+                    <span>Refresh Project Tasks</span>
+                </div>
+                <div @click="openModal" class="project-task-tool">
                     <img src="@/assets/img/add-item.svg" width="30" />
                     <span>Add New Project Task</span>
                 </div>
+            </div>
             <div class="project-task-collection">
                 <ProjectTaskItem
                     v-for="projectTask in projectTasks"
@@ -18,7 +24,11 @@
         </div>
     </div>
 
-    <ProjectTaskModal />
+    <keep-alive>
+        <ProjectTaskModal
+            ref="modal_comp_ref"
+            :projectId="modal_projectId" />
+    </keep-alive>
 </template>
 
 <script lang="ts">
@@ -41,16 +51,25 @@
                 const router = useRouter();
                 const projectMounted: Project = store.getters.getprojectLoaded;
 
+                const modal_comp_ref = ref(null);
+                const modal_projectId = ref('');
+
                 const project_name = ref('');
                 const project_desc = ref('');
 
                 const projectTasks = ref(Array<ProjectTask>());
+
+                modal_projectId.value = projectMounted.id!;
 
                 const loadProjectTasks = () => {
                     readAllProjectTasks({ projectId: projectMounted.id }).then((value) => {
                         projectTasks.value = value;
                     })
                 };
+
+                const openModal = () => {
+                    (modal_comp_ref.value as any).openModal('Add New Project Task', false);
+                }
 
                 onMounted(() => {
                     if ( projectMounted.isNull() ) {
@@ -65,9 +84,12 @@
                 });
 
                 return {
+                    openModal,
+                    modal_comp_ref,
                     projectTasks,
                     loadProjectTasks,
-                    project_name, project_desc
+                    project_name, project_desc,
+                    modal_projectId
                 };
             }
     });
@@ -97,13 +119,15 @@
             width: 100%;
             height: 80%;
 
-            & > .project-task-add {
+            & > .project-task-tools {
+                display: flex;
+                justify-content: flex-end;
+
+                & > .project-task-tool {
                 background: #ffffff5f;
                 display: flex;
                 align-items: center;
-                align-self: right;
                 flex-wrap: wrap;
-                margin-left: auto;
                 margin-right: 10px;
 
                 &:hover {
@@ -117,6 +141,7 @@
                     margin: 5px 10px;
                     font-size: 0.75rem;
                 }
+            }
             }
 
             & > .project-task-collection {
