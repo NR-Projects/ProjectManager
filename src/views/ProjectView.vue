@@ -1,14 +1,20 @@
 <template>
-    <div>
-        <div>
+    <div class="project-view">
+        <div class="project-info">
             <p>{{ project_name }}</p>
             <p>{{ project_desc }}</p>
         </div>
-        <div class="project-task-collection">
-            <ProjectTaskItem
-                v-for="projectTask in projectTasks"
-                :key="projectTask.id"
-                :Data="projectTask" />
+        <div class="project-task-container">
+            <div class="project-task-add">
+                    <img src="@/assets/img/add-item.svg" width="30" />
+                    <span>Add New Project Task</span>
+                </div>
+            <div class="project-task-collection">
+                <ProjectTaskItem
+                    v-for="projectTask in projectTasks"
+                    :key="projectTask.id"
+                    :Data="projectTask" />
+            </div>
         </div>
     </div>
 </template>
@@ -64,4 +70,53 @@
 </script>
 
 <style lang="scss" scoped>
+    .project-view {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, rgb(40, 5, 69) 0%, rgb(84, 2, 161) 100%);
+        & > .project-info {
+            display: inline-block;
+            width: 100%;
+            height: 20%;
+
+            & > p {
+                color: #ffffff;
+                
+                &:nth-child(1) {
+                    font-size: 1.55rem;
+                }
+            }
+        }
+        & > .project-task-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 80%;
+
+            & > .project-task-add {
+                background: #ffffff5f;
+                display: flex;
+                align-items: center;
+                align-self: right;
+                flex-wrap: wrap;
+                margin-left: auto;
+                margin-right: 10px;
+
+                > * {
+                    color: rgb(222, 222, 222);
+                    margin: 5px 10px;
+                    font-size: 0.75rem;
+                }
+            }
+
+            & > .project-task-collection {
+                background: #00000039;
+                margin: 10px;
+                height: 100%;
+                display: flex;
+                align-items: stretch;
+                overflow-x: visible;
+            }
+        }
+    }
 </style>
