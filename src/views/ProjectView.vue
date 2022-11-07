@@ -17,20 +17,24 @@
             </div>
         </div>
     </div>
+
+    <ProjectTaskModal />
 </template>
 
 <script lang="ts">
     import { defineComponent, onMounted, ref } from 'vue';
     import { useStore } from 'vuex';
     import { useRouter } from 'vue-router';
-    import ProjectTaskItem from '@/components/project_view/ProjectTaskItem.vue';
     import { Project, ProjectTask } from '@/models';
     import { readAllProjectTasks } from '@/repository';
+    import ProjectTaskItem from '@/components/project_view/ProjectTaskItem.vue';
+    import ProjectTaskModal from '@/components/project_view/ProjectTaskModal.vue';
 
     export default defineComponent({
             name: 'ProjectView',
             components: {
-                ProjectTaskItem
+                ProjectTaskItem,
+                ProjectTaskModal
             },
             setup() {
                 const store = useStore();
@@ -101,6 +105,12 @@
                 flex-wrap: wrap;
                 margin-left: auto;
                 margin-right: 10px;
+
+                &:hover {
+                    cursor: pointer;
+                    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.367);
+                    background: #ffffff35;
+                }
 
                 > * {
                     color: rgb(222, 222, 222);
