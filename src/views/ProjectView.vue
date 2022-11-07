@@ -29,6 +29,7 @@
             setup() {
                 const store = useStore();
                 const router = useRouter();
+                const projectMounted: Project = store.getters.getprojectLoaded;
 
                 const project_name = ref('');
                 const project_desc = ref('');
@@ -36,19 +37,20 @@
                 const projectTasks = ref(Array<ProjectTask>());
 
                 const loadProjectTasks = () => {
-                    readAllProjectTasks({}).then((value) => {
+                    readAllProjectTasks({ projectId: projectMounted.id }).then((value) => {
                         projectTasks.value = value;
                     })
                 };
 
                 onMounted(() => {
-                    const projectMounted: Project = store.getters.getprojectLoaded;
                     if ( projectMounted.isNull() ) {
                         // If none, go to projects area
                         router.push({ name: 'home'});
                         return;
                     }
                     
+                    project_name.value = projectMounted.name;
+                    project_desc.value = projectMounted.desc;
                     loadProjectTasks();
                 });
 
