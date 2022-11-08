@@ -19,7 +19,7 @@
                 <ProjectTaskItem
                     v-for="projectTask in projectTasks"
                     :key="projectTask.id"
-                    :ID="projectTask.id"
+                    :ID="projectIdRef"
                     :Data="projectTask" />
             </div>
         </div>
@@ -28,7 +28,7 @@
     <keep-alive>
         <ProjectTaskModal
             ref="modal_comp_ref"
-            :projectId="modal_projectId" />
+            :projectId="projectIdRef" />
     </keep-alive>
 </template>
 
@@ -53,14 +53,14 @@
                 const projectMounted: Project = store.getters.getprojectLoaded;
 
                 const modal_comp_ref = ref(null);
-                const modal_projectId = ref('');
+                const projectIdRef = ref('');
 
                 const project_name = ref('');
                 const project_desc = ref('');
 
                 const projectTasks = ref(Array<ProjectTask>());
 
-                modal_projectId.value = projectMounted.id!;
+                projectIdRef.value = projectMounted.id!;
 
                 const loadProjectTasks = () => {
                     readAllProjectTasks({ projectId: projectMounted.id }).then((value) => {
@@ -90,7 +90,7 @@
                     projectTasks,
                     loadProjectTasks,
                     project_name, project_desc,
-                    modal_projectId
+                    projectIdRef
                 };
             }
     });
