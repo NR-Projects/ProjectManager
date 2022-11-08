@@ -7,7 +7,7 @@ class Task extends BaseModel{
     date_created: Date;
     date_last_updated: Date;
 
-    constructor(_id: string, _name: string, _desc: string, _status: TaskStatus, _date_created: Date, _date_last_updated: Date) {
+    constructor(_name: string, _desc: string, _status: TaskStatus, _date_created: Date, _date_last_updated: Date, _id: string) {
         super(_name);
 
         this.id = _id;
