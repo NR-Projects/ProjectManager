@@ -8,8 +8,14 @@ import {
     updateDoc,
     deleteDoc,
     query,
-    where } from "firebase/firestore";
+    where, 
+    CollectionReference,
+    DocumentData } from "firebase/firestore";
 import { ProjectTask } from '@/models';
+
+function getCollectionRef(project_id: string): CollectionReference<DocumentData> {
+    return collection(getFirestore(), "users", getAuth().currentUser!.uid, "projects", project_id, "project_task");
+}
 
 async function addProjectTask(require: requires, projectTask: ProjectTask): Promise<void> {
     const { name } = projectTask;
@@ -17,10 +23,7 @@ async function addProjectTask(require: requires, projectTask: ProjectTask): Prom
     if( !require ) return;
     const project_id = require.projectId!;
 
-    const uid = getAuth().currentUser?.uid;
-    if ( !uid ) return;
-
-    await addDoc(collection(getFirestore(), "users", uid, "projects", project_id, "project_task"), {
+    await addDoc(getCollectionRef(project_id), {
         name: name
     });
 }
@@ -31,10 +34,7 @@ async function readAllProjectTasks(require: requires): Promise<Array<ProjectTask
     if( !require ) return projectTasks;
     const project_id = require.projectId!;
 
-    const uid = getAuth().currentUser?.uid;
-    if ( !uid ) return projectTasks;
-
-    const querySnapshot = await getDocs(collection(getFirestore(), "users", uid, "projects", project_id, "project_task"));
+    const querySnapshot = await getDocs(getCollectionRef(project_id));
     querySnapshot.forEach((doc) => {
         const doc_fields = doc.data();
         projectTasks.push(
@@ -52,10 +52,7 @@ async function updateProjectTask(require: requires, oldData: ProjectTask, newDat
     if( !require ) return;
     const project_id = require.projectId!;
 
-    const uid = getAuth().currentUser?.uid;
-    if ( !uid ) return;
-
-    const q = query(collection(getFirestore(), "users", uid, "projects", project_id, "project_task"), where("name", "==", oldData.name));
+    const q = query(getCollectionRef(project_id), where("name", "==", oldData.name));
     (await getDocs(q)).forEach(async (doc) => {
         await updateDoc(doc.ref, {
             name: newData.name
@@ -67,10 +64,7 @@ async function deleteProjectTask(require: requires, data: ProjectTask): Promise<
     if( !require ) return;
     const project_id = require.projectId!;
 
-    const uid = getAuth().currentUser?.uid;
-    if ( !uid ) return;
-
-    const q = query(collection(getFirestore(), "users", uid, "projects", project_id, "project_task"), where("name", "==", data.name));
+    const q = query(getCollectionRef(project_id), where("name", "==", data.name));
     (await getDocs(q)).forEach(async (doc) => {
         await deleteDoc(doc.ref);
     });
