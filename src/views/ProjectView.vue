@@ -19,6 +19,7 @@
                 <ProjectTaskItem
                     v-for="projectTask in projectTasks"
                     :key="projectTask.id"
+                    :ID="projectTask.id"
                     :Data="projectTask" />
             </div>
         </div>
@@ -150,7 +151,7 @@
                 height: 100%;
                 display: flex;
                 align-items: stretch;
-                overflow-x: visible;
+                overflow-x: auto;
             }
         }
     }
