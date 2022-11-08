@@ -17,8 +17,15 @@
                     <img @click="loadTasks" src="@/assets/img/refresh.svg" width="25" />
                 </div>
             </div>
-            <Draggable>
-                <TaskItem />
+            <Draggable
+                class="task-collection"
+                v-model="tasks"
+                group="task"
+                item-key="id">
+                <template #item="{element}">
+                    <TaskItem
+                        :key="element.id" />
+                </template>
             </Draggable>
         </div>
     </div>
@@ -59,7 +66,7 @@
 
             return {
                 projectTask,
-                loadTasks
+                tasks, loadTasks
             };
         }
     });
@@ -70,6 +77,8 @@
         margin: 10px 4px;
         background: #0a001c83;
         min-width: 350px;
+        display: flex;
+        flex-direction: column;
 
         & > .project-task-info {
             display: inline-block;
@@ -89,6 +98,7 @@
         & > .project-task-container {
             display: flex;
             flex-direction: column;
+            flex: 1;
 
             & > .task-tools {
                 display: flex;
@@ -124,6 +134,12 @@
                         margin-left: 5px;
                     }
                 }
+            }
+
+            & > .task-collection {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
             }
         }
     }
