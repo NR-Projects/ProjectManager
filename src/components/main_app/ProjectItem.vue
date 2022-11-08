@@ -64,6 +64,7 @@
         & > p {
             font-weight: 700;
             font-size: 1.25rem;
+            cursor: pointer;
         }
 
         & > .project-dates > div {
