@@ -1,7 +1,7 @@
 <template>
     <div class="project-task-item">
         <div class="project-task-info">
-            <p>{{ projectTask.name }}</p>
+            <p>{{ Data?.name }}</p>
         </div>
         <div class="project-task-tools">
             <img src="@/assets/img/edit-item.svg" width="25" />
@@ -24,7 +24,8 @@
                 item-key="id">
                 <template #item="{element}">
                     <TaskItem
-                        :key="element.id" />
+                        :key="element.id"
+                        :Data="element" />
                 </template>
             </Draggable>
         </div>
@@ -49,7 +50,6 @@
             ID: String
         },
         setup(props) {
-            const projectTask = ref(ProjectTask.createEmptyObject());
             const tasks = ref(Array<Task>());
 
             const loadTasks = () => {
@@ -60,12 +60,9 @@
 
             onMounted(() => {
                 loadTasks();
-
-                projectTask.value = props.Data!;
             });
 
             return {
-                projectTask,
                 tasks, loadTasks
             };
         }
