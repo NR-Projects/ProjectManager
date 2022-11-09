@@ -4,8 +4,8 @@
             <p>{{ Data?.name }}</p>
         </div>
         <div class="project-task-tools">
-            <img src="@/assets/img/edit-item.svg" width="25" />
-            <img src="@/assets/img/delete-item.svg" width="25" />
+            <img @click="_editProjectTask" src="@/assets/img/edit-item.svg" width="25" />
+            <img @click="_deleteProjectTask" src="@/assets/img/delete-item.svg" width="25" />
         </div>
         <div class="project-task-container">
             <div class="task-tools">
@@ -35,7 +35,7 @@
 <script lang="ts">
     import { defineComponent, ref, onMounted } from 'vue';
     import { ProjectTask, Task } from '@/models';
-    import { readAllTasks } from '@/repository';
+    import { deleteProjectTask, readAllTasks } from '@/repository';
     import Draggable from 'vuedraggable';
     import TaskItem from '@/components/project_view/TaskItem.vue';
 
@@ -48,6 +48,16 @@
         props: {
             Data: ProjectTask,
             ID: String
+        },
+        methods: {
+            _editProjectTask() {
+                this.$emit('edit_projectTask', this.Data);
+            },
+            _deleteProjectTask() {
+                if(window.confirm('Are you sure you want to delete this')) {
+                    deleteProjectTask({ projectId: this.ID }, this.Data!);
+                }
+            }
         },
         setup(props) {
             const tasks = ref(Array<Task>());

@@ -20,7 +20,8 @@
                     v-for="projectTask in projectTasks"
                     :key="projectTask.id"
                     :ID="projectIdRef"
-                    :Data="projectTask" />
+                    :Data="projectTask"
+                    @edit_projectTask="(Data) => editProjTaskModal(Data)" />
             </div>
         </div>
     </div>
@@ -72,6 +73,10 @@
                     (modal_comp_ref.value as any).openModal('Add New Project Task', false);
                 }
 
+                const editProjTaskModal = (Data: ProjectTask) => {
+                    (modal_comp_ref.value as any).openModal('Edit Existing Project Task', true, Data);
+                };
+
                 onMounted(() => {
                     if ( projectMounted.isNull() ) {
                         // If none, go to projects area
@@ -90,7 +95,8 @@
                     projectTasks,
                     loadProjectTasks,
                     project_name, project_desc,
-                    projectIdRef
+                    projectIdRef,
+                    editProjTaskModal
                 };
             }
     });
