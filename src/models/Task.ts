@@ -1,13 +1,13 @@
 import BaseModel from "./BaseModel";
 
 class Task extends BaseModel{
-    id: string;
+    id?: string;
     desc: string;
     status: TaskStatus;
-    date_created: Date;
-    date_last_updated: Date;
+    date_created?: Date;
+    date_last_updated?: Date;
 
-    constructor(_name: string, _desc: string, _status: TaskStatus, _date_created: Date, _date_last_updated: Date, _id: string) {
+    constructor(_name: string, _desc: string, _status: TaskStatus, _date_created?: Date, _date_last_updated?: Date, _id?: string) {
         super(_name);
 
         this.id = _id;
@@ -20,7 +20,6 @@ class Task extends BaseModel{
 
 enum TaskStatus {
     NotYetStarted,
-    CheckingViability,
     InProgress,
     Finished
 }
