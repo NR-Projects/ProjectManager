@@ -29,7 +29,7 @@
 <script lang="ts">
     import { defineComponent, ref } from 'vue';
     import { Project } from '@/models';
-    import { addProject, updateProject, isValid, DataStatus } from '@/repository';
+    import { addProject, updateProject, isValid, DataStatus, DataType } from '@/repository';
     import { toggleModal } from '@/utilities';
 
     export default defineComponent({
@@ -48,7 +48,7 @@
             let projectLoaded: Project;
             let type: string;
 
-            const submitProject = () => {
+            const submitProject = async () => {
                 // Get and process data
                 const newProject: Project = new Project(input_project_name.value, input_project_desc.value);
 
@@ -56,26 +56,27 @@
                     case 'Add':
                         {
                             // Check Validity
-                            if ( !isValid(DataStatus.New, newProject) ) {
+                            if ( await isValid(DataType.Project, DataStatus.New, newProject) ) {
+                                // Send to firebase
+                                addProject(newProject);
+                                window.alert("New Project Added!");
                                 return;
                             }
-
-                            // Send to firebase
-                            addProject(newProject);
                         }
                         break;
                     case 'Edit':
                         {
                             // Check Validity
-                            if ( !isValid(DataStatus.Existing, newProject, projectLoaded) ) {
+                            if ( await isValid(DataType.Project, DataStatus.Existing, newProject, projectLoaded) ) {
+                                // Send to firebase
+                                updateProject(projectLoaded, newProject);
+                                window.alert("Existing Project Updated!");
                                 return;
                             }
-
-                            // Send to firebase
-                            updateProject(projectLoaded, newProject);
                         }
                         break;
                 }
+                window.alert("Invalid Input Detected!");
 
                 // Close modal
                 toggleModal('close', modal_ref.value as unknown as HTMLElement);
