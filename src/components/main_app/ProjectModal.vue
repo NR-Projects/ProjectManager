@@ -14,10 +14,10 @@
                     </div>
                 </div>
                 <div class="modal-options">
-                    <div @click="closeModal">
+                    <div @click="closeModal" class="close-btn">
                         <span>Close</span>
                     </div>
-                    <div @click="submitProject">
+                    <div @click="submitProject" class="submit-btn">
                         <span>Submit</span>
                     </div>
                 </div>
