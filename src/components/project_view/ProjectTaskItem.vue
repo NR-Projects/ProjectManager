@@ -9,12 +9,12 @@
         </div>
         <div class="project-task-container">
             <div class="task-tools">
-                <div>
+                <div @click="openModal">
                     <img src="@/assets/img/add-item.svg" width="25" />
                     <span>Add New Task</span>
                 </div>
-                <div>
-                    <img @click="loadTasks" src="@/assets/img/refresh.svg" width="25" />
+                <div @click="loadTasks">
+                    <img src="@/assets/img/refresh.svg" width="25" />
                 </div>
             </div>
             <Draggable
@@ -30,6 +30,14 @@
             </Draggable>
         </div>
     </div>
+
+    <keep-alive>
+        <TaskModal
+            ref="modal_comp_ref"
+            :ProjectID="ID"
+            :ProjectTaskID="Data?.id" />
+    </keep-alive>
+
 </template>
 
 <script lang="ts">
@@ -38,11 +46,13 @@
     import { deleteProjectTask, readAllTasks } from '@/repository';
     import Draggable from 'vuedraggable';
     import TaskItem from '@/components/project_view/TaskItem.vue';
+    import TaskModal from '@/components/project_view/TaskModal.vue';
 
     export default defineComponent({
         name: 'ProjectTaskItem',
         components: {
             TaskItem,
+            TaskModal,
             Draggable
         },
         props: {
@@ -60,6 +70,7 @@
             }
         },
         setup(props) {
+            const modal_comp_ref = ref(null);
             const tasks = ref(Array<Task>());
 
             const loadTasks = () => {
@@ -68,12 +79,18 @@
                 })
             };
 
+            const openModal = () => {
+                (modal_comp_ref.value as any).openModal('Add Project Task', false);
+            }
+
             onMounted(() => {
                 loadTasks();
             });
 
             return {
-                tasks, loadTasks
+                modal_comp_ref,
+                tasks, loadTasks,
+                openModal
             };
         }
     });
