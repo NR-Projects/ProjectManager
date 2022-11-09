@@ -34,8 +34,6 @@
 
     export default defineComponent({
         name: 'ProjectsArea',
-        components: {
-        },
         setup() {
             // Elements
             const modal_ref = ref(null);

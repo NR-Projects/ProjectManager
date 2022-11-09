@@ -30,8 +30,6 @@
 
     export default defineComponent({
         name: 'ProjectTaskModal',
-        components: {
-        },
         props: {
             projectId: String
         },
@@ -40,7 +38,6 @@
             const title = ref('');
             const input_project_task_name = ref('');
 
-            let projectIdLoaded: string;
             let projectTaskLoaded: ProjectTask;
             let type: string;
 
@@ -49,7 +46,7 @@
                 const newProjectTask: ProjectTask = new ProjectTask(input_project_task_name.value);
 
                 let r: requires = {
-                    projectId: projectIdLoaded
+                    projectId: props.projectId
                 }
 
                 switch (type) {
@@ -102,10 +99,6 @@
                 // Close modal
                 toggleModal('close', modal_ref.value as unknown as HTMLElement);
             };
-
-            onMounted(() => {
-                projectIdLoaded = props.projectId!;
-            });
 
             return {
                 submitProjectTask,
