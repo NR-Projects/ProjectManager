@@ -77,6 +77,7 @@
         margin: 10px 4px;
         background: #0a001c83;
         min-width: 350px;
+        max-width: 350px;
         display: flex;
         flex-direction: column;
 
