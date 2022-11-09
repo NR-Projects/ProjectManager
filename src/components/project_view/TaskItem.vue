@@ -24,6 +24,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             margin: 15px 10px;
+            color: #d1d1d1;
         }
     }
 </style>
