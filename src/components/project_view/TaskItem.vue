@@ -1,14 +1,18 @@
 <template>
     <div class="task-item">
-        <span>TASK</span>
+        <span>{{ Data?.name }}</span>
     </div>
 </template>
 
 <script lang="ts">
     import { defineComponent } from 'vue';
+    import { Task } from '@/models';
 
     export default defineComponent({
-        name: 'TaskItem'
+        name: 'TaskItem',
+        props: {
+            Data: Task
+        }
     });
 </script>
 
