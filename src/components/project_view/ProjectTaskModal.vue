@@ -31,7 +31,7 @@
     export default defineComponent({
         name: 'ProjectTaskModal',
         props: {
-            projectId: String
+            ProjectID: String
         },
         setup(props) {
             const modal_ref = ref(null);
@@ -46,7 +46,7 @@
                 const newProjectTask: ProjectTask = new ProjectTask(input_project_task_name.value);
 
                 let r: requires = {
-                    projectId: props.projectId
+                    projectId: props.ProjectID
                 }
 
                 switch (type) {

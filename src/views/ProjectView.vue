@@ -29,7 +29,7 @@
     <keep-alive>
         <ProjectTaskModal
             ref="modal_comp_ref"
-            :projectId="projectIdRef" />
+            :ProjectID="projectIdRef" />
     </keep-alive>
 </template>
 
