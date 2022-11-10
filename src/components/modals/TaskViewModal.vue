@@ -26,7 +26,9 @@
                 </div>
                 <div class="modal-view-desc">
                     <div>
-                        <textarea readonly></textarea>
+                        <textarea readonly>
+                            NOT YET IMPLEMENTED
+                        </textarea>
                     </div>
                 </div>
                 <div class="modal-options">

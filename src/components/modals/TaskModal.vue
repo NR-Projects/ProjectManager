@@ -23,10 +23,10 @@
                     </div>
                 </div>
                 <div class="modal-options">
-                    <div @click="closeModal">
+                    <div @click="closeModal" class="close-btn">
                         <span>Close</span>
                     </div>
-                    <div @click="submitTask">
+                    <div @click="submitTask" class="submit-btn">
                         <span>Submit</span>
                     </div>
                 </div>
