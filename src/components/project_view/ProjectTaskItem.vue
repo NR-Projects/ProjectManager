@@ -25,7 +25,8 @@
                 <template #item="{element}">
                     <TaskItem
                         :key="element.id"
-                        :Data="element" />
+                        :Data="element"
+                        @_editTaskModal="(Data) => editTaskModal(Data)" />
                 </template>
             </Draggable>
         </div>
@@ -83,6 +84,10 @@
                 (modal_comp_ref.value as any).openModal('Add Project Task', false);
             }
 
+            const editTaskModal = (Data: Task) => {
+                (modal_comp_ref.value as any).openModal('Edit Existing Project Task', true, Data);
+            }
+
             onMounted(() => {
                 loadTasks();
             });
@@ -90,7 +95,7 @@
             return {
                 modal_comp_ref,
                 tasks, loadTasks,
-                openModal
+                openModal, editTaskModal
             };
         }
     });

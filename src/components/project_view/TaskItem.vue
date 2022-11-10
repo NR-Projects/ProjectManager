@@ -5,13 +5,16 @@
 
     <keep-alive>
         <TaskViewModal
-            ref="modal_view_comp_ref" />
+            ref="modal_view_comp_ref"
+            :Data="Data"
+            @edit_task="(Data) => _edit_task(Data)" />
     </keep-alive>
 </template>
 
 <script lang="ts">
     import { defineComponent, ref } from 'vue';
     import { Task } from '@/models';
+    import TaskViewModal from '@/components/modals/TaskViewModal.vue';
 
     export default defineComponent({
         name: 'TaskItem',
@@ -19,6 +22,12 @@
             Data: Task
         },
         components: {
+            TaskViewModal
+        },
+        methods: {
+            _edit_task(Data: Task) {
+                this.$emit('_editTaskModal', Data);
+            }
         },
         setup() {
             const modal_view_comp_ref = ref(null);
