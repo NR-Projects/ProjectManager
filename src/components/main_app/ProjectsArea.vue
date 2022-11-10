@@ -22,7 +22,7 @@
 
 <script lang="ts">
     import ProjectItem from '@/components/main_app/ProjectItem.vue';
-    import ProjectModal from '@/components/main_app/ProjectModal.vue';
+    import ProjectModal from '@/components/modals/ProjectModal.vue';
     import { defineComponent, ref } from 'vue';
     import { Project } from '@/models';
     import { readAllProjects } from '@/repository';

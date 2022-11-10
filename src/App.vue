@@ -1,6 +1,20 @@
 <template>
 	<router-view />
+
+	<TaskViewModal />
 </template>
+
+<script lang="ts">
+	import { defineComponent } from 'vue';
+	import TaskViewModal from '@/components/modals/TaskViewModal.vue';
+
+    export default defineComponent({
+        name: 'App',
+		components: {
+			TaskViewModal
+		}
+    });
+</script>
 
 <style lang="scss">
 #app {

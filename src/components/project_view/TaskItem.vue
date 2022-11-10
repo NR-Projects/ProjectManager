@@ -1,23 +1,43 @@
 <template>
-    <div class="task-item">
+    <div @click="openModal" class="task-item">
         <span>{{ Data?.name }}</span>
     </div>
+
+    <keep-alive>
+        <TaskViewModal
+            ref="modal_view_comp_ref" />
+    </keep-alive>
 </template>
 
 <script lang="ts">
-    import { defineComponent } from 'vue';
+    import { defineComponent, ref } from 'vue';
     import { Task } from '@/models';
 
     export default defineComponent({
         name: 'TaskItem',
         props: {
             Data: Task
+        },
+        components: {
+        },
+        setup() {
+            const modal_view_comp_ref = ref(null);
+
+            const openModal = () => {
+                (modal_view_comp_ref.value as any).openModal();
+            };
+
+            return {
+                modal_view_comp_ref,
+                openModal
+            };
         }
     });
 </script>
 
 <style lang="scss" scoped>
     .task-item {
+        cursor: pointer;
         margin: 8px;
         background: #1b1b1b;
         display: flex;

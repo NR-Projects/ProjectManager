@@ -40,7 +40,7 @@
     import { Project, ProjectTask } from '@/models';
     import { readAllProjectTasks } from '@/repository';
     import ProjectTaskItem from '@/components/project_view/ProjectTaskItem.vue';
-    import ProjectTaskModal from '@/components/project_view/ProjectTaskModal.vue';
+    import ProjectTaskModal from '@/components/modals/ProjectTaskModal.vue';
 
     export default defineComponent({
             name: 'ProjectView',

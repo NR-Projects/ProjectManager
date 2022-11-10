@@ -46,7 +46,7 @@
     import { deleteProjectTask, readAllTasks } from '@/repository';
     import Draggable from 'vuedraggable';
     import TaskItem from '@/components/project_view/TaskItem.vue';
-    import TaskModal from '@/components/project_view/TaskModal.vue';
+    import TaskModal from '@/components/modals/TaskModal.vue';
 
     export default defineComponent({
         name: 'ProjectTaskItem',
