@@ -2,21 +2,21 @@
     <Teleport to="#app">
         <div ref="modal_ref" class="modal" id="task-view-modal">
             <div class="modal-view-content">
-                <p class="modal-title">{{ Data?.name }}</p>
+                <p class="modal-title">{{ DataView.name }}</p>
                 <div class="modal-meta">
                     <div class="modal-view-infos">
                         <div>
                             <span>Date Created:</span>
-                            <span>{{ formatDate(Data?.date_created) }}</span>
+                            <span>{{ formatDate(DataView.date_created) }}</span>
                         </div>
                         <div>
                             <span>Date Last Updated:</span>
-                            <span>{{ formatDate(Data?.date_last_updated) }}</span>
+                            <span>{{ formatDate(DataView.date_last_updated) }}</span>
                         </div>
                     </div>
                     <div class="modal-self-option">
                         <label>Task Status:</label>
-                        <select>
+                        <select v-model="DataView.status">
                             <option disabled value="">Select Status</option>
                             <option value=0 selected>Not Yet Started</option>
                             <option value=1>In Progress</option>
@@ -26,8 +26,7 @@
                 </div>
                 <div class="modal-view-desc">
                     <div>
-                        <textarea readonly>
-                            NOT YET IMPLEMENTED
+                        <textarea readonly v-model="DataView.desc">
                         </textarea>
                     </div>
                 </div>
@@ -66,8 +65,9 @@
         props: {
             Data: Task
         },
-        setup() {
+        setup(props) {
             const modal_ref = ref(null);
+            const DataView = ref(props.Data!);
 
             const openModal = () => {
                 // Open modal
@@ -82,7 +82,7 @@
 
             return {
                 openModal, closeModal,
-                modal_ref
+                modal_ref, DataView
             }
         }
     });
