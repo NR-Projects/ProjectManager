@@ -4,7 +4,7 @@
 	<ProjectModal ref="projectModalRef" />
 	<ProjectTaskModal ref="projectTaskModalRef" />
 	<TaskModal ref="taskModalRef" />
-	<TaskViewModal ref="taskViewModalRef" :Data="new Task('', '', 0, new Date(), new Date(), '')" />
+	<TaskViewModal ref="taskViewModalRef" />
 </template>
 
 <script lang="ts">
@@ -14,7 +14,7 @@
 	import ProjectTaskModal from '@/components/modals/ProjectTaskModal.vue';
 	import TaskModal from '@/components/modals/TaskModal.vue';
 	import TaskViewModal from '@/components/modals/TaskViewModal.vue';
-	import { ModalStoreParams, TargetedModal, Task } from './models';
+	import { ModalStoreParams, TargetedModal } from './models';
 
     export default defineComponent({
         name: 'App',
@@ -44,10 +44,10 @@
 						(projectTaskModalRef.value as any).openModal(MSP.require!, MSP.title, MSP.isEdit!, MSP.data);
 						break;
 					case TargetedModal.TaskCE:
-						//
+						(taskModalRef.value as any).openModal(MSP.require!, MSP.title, MSP.isEdit!, MSP.data);
 						break;
 					case TargetedModal.TaskView:
-						//
+						(taskViewModalRef.value as any).openModal(MSP.require!, MSP.data);
 						break;
 				}
 			});
@@ -56,8 +56,7 @@
 				projectModalRef,
 				projectTaskModalRef,
 				taskModalRef,
-				taskViewModalRef,
-				Task
+				taskViewModalRef
 			}
 		}
     });

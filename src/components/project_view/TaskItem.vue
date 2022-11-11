@@ -2,42 +2,35 @@
     <div @click="openModal" class="task-item">
         <span>{{ Data?.name }}</span>
     </div>
-
-    <keep-alive>
-        <TaskViewModal
-            ref="modal_view_comp_ref"
-            :Data="Data"
-            @edit_task="(Data) => _edit_task(Data)" />
-    </keep-alive>
 </template>
 
 <script lang="ts">
-    import { defineComponent, ref } from 'vue';
-    import { Task } from '@/models';
-    import TaskViewModal from '@/components/modals/TaskViewModal.vue';
+    import { defineComponent } from 'vue';
+    import { useStore } from 'vuex';
+    import { TargetedModal, Task } from '@/models';
 
     export default defineComponent({
         name: 'TaskItem',
         props: {
-            Data: Task
+            Data: Task,
+            ProjectID: String,
+            ProjectTaskID: String
         },
-        components: {
-            TaskViewModal
-        },
-        methods: {
-            _edit_task(Data: Task) {
-                this.$emit('_editTaskModal', Data);
-            }
-        },
-        setup() {
-            const modal_view_comp_ref = ref(null);
+        setup(props) {
+            const store = useStore();
 
             const openModal = () => {
-                (modal_view_comp_ref.value as any).openModal();
+                store.dispatch('setModalStoreParams', {
+                        targetedModal: TargetedModal.TaskView,
+                        data: props.Data,
+                        require: {
+                            projectId: props.ProjectID,
+                            projectTaskId: props.ProjectTaskID
+                        }
+                });
             };
 
             return {
-                modal_view_comp_ref,
                 openModal
             };
         }

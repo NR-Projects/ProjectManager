@@ -26,34 +26,26 @@
                     <TaskItem
                         :key="element.id"
                         :Data="element"
-                        @_editTaskModal="(Data) => editTaskModal(Data)" />
+                        :ProjectID="ID"
+                        :ProjectTaskID="Data?.id" />
                 </template>
             </Draggable>
         </div>
     </div>
-
-    <keep-alive>
-        <TaskModal
-            ref="modal_comp_ref"
-            :ProjectID="ID"
-            :ProjectTaskID="Data?.id" />
-    </keep-alive>
-
 </template>
 
 <script lang="ts">
     import { defineComponent, ref, onMounted } from 'vue';
+    import { useStore } from 'vuex';
     import { ProjectTask, TargetedModal, Task } from '@/models';
     import { deleteProjectTask, readAllTasks } from '@/repository';
     import Draggable from 'vuedraggable';
     import TaskItem from '@/components/project_view/TaskItem.vue';
-    import TaskModal from '@/components/modals/TaskModal.vue';
 
     export default defineComponent({
         name: 'ProjectTaskItem',
         components: {
             TaskItem,
-            TaskModal,
             Draggable
         },
         props: {
@@ -79,7 +71,7 @@
             }
         },
         setup(props) {
-            const modal_comp_ref = ref(null);
+            const store = useStore();
             const tasks = ref(Array<Task>());
 
             const loadTasks = () => {
@@ -89,11 +81,15 @@
             };
 
             const openModal = () => {
-                (modal_comp_ref.value as any).openModal('Add Project Task', false);
-            }
-
-            const editTaskModal = (Data: Task) => {
-                (modal_comp_ref.value as any).openModal('Edit Existing Project Task', true, Data);
+                store.dispatch('setModalStoreParams', {
+                        targetedModal: TargetedModal.TaskCE,
+                        title: 'Add New Task',
+                        isEdit: false,
+                        require: {
+                            projectId: props.ID,
+                            projectTaskId: props.Data!.id!
+                        }
+                });
             }
 
             onMounted(() => {
@@ -101,9 +97,8 @@
             });
 
             return {
-                modal_comp_ref,
                 tasks, loadTasks,
-                openModal, editTaskModal
+                openModal
             };
         }
     });

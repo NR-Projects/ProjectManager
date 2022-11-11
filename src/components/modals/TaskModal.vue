@@ -43,18 +43,14 @@
 
     export default defineComponent({
         name: 'ProjectTaskModal',
-        props: {
-            ProjectID: String,
-            ProjectTaskID: String,
-            Data: Task
-        },
-        setup(props) {
+        setup() {
             const modal_ref = ref(null);
             const title = ref('');
             const input_task_name = ref('');
             const input_task_desc = ref('');
             const input_task_status = ref(0);
 
+            let require: requires = {};
             let taskLoaded: Task;
             let type: string;
 
@@ -62,18 +58,13 @@
                 // Get and process data
                 const newTask: Task = new Task(input_task_name.value, input_task_desc.value, input_task_status.value);
 
-                let r: requires = {
-                    projectId: props.ProjectID,
-                    projectTaskId: props.ProjectTaskID
-                }
-
                 switch (type) {
                     case 'Add':
                         {
                             // Check Validity
-                            if ( await isValid(DataType.Task, DataStatus.New, newTask, undefined, r) ) {
+                            if ( await isValid(DataType.Task, DataStatus.New, newTask, undefined, require) ) {
                                 // Send to firebase
-                                addTask(r, newTask);
+                                addTask(require, newTask);
                                 window.alert("New Task Added!");
                                 return;
                             }
@@ -82,9 +73,9 @@
                     case 'Edit':
                         {
                             // Check Validity
-                            if ( await isValid(DataType.Task, DataStatus.Existing, newTask, taskLoaded, r) ) {
+                            if ( await isValid(DataType.Task, DataStatus.Existing, newTask, taskLoaded, require) ) {
                                 // Send to firebase
-                                updateTask(r, taskLoaded, newTask);
+                                updateTask(require, taskLoaded, newTask);
                                 window.alert("Existing Task Updated!");
                                 return;
                             }
@@ -97,7 +88,8 @@
                 toggleModal('close', modal_ref.value as unknown as HTMLElement);
             };
 
-            const openModal = (_title: string, isEdit: boolean, data?: Task) => {
+            const openModal = (r: requires, _title: string, isEdit: boolean, data?: Task) => {
+                require = r;
                 title.value = _title;
                 
                 if ( isEdit ) {

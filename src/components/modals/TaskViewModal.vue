@@ -1,6 +1,6 @@
 <template>
     <Teleport to="#app">
-        <div ref="modal_ref" class="modal" id="task-view-modal">
+        <div ref="modal_ref" class="modal">
             <div class="modal-view-content">
                 <p class="modal-title">{{ DataView.name }}</p>
                 <div class="modal-meta">
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="modal-options">
-                    <div @click="_editTask" class="edit-btn">
+                    <div @click="editTask" class="edit-btn">
                         <span>Edit</span>
                     </div>
                     <div @click="closeModal" class="close-btn">
@@ -45,7 +45,8 @@
 
 <script lang="ts">
     import { defineComponent, ref } from 'vue';
-    import { Task } from '@/models';
+    import { useStore } from 'vuex';
+    import { TargetedModal, Task } from '@/models';
     import { requires } from '@/repository';
     import { toggleModal } from '@/utilities';
 
@@ -57,19 +58,18 @@
                     return _date.toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
                 return "Invalid Date";
                 
-            },
-            _editTask() {
-                this.$emit('edit_task', this.Data);
             }
         },
-        props: {
-            Data: Task
-        },
-        setup(props) {
+        setup() {
+            const store = useStore();
             const modal_ref = ref(null);
-            const DataView = ref(props.Data!);
+            const DataView = ref(new Task('', '', 0));
+            let require: requires = {};
 
-            const openModal = () => {
+            const openModal = (r: requires, Data: Task) => {
+                require = r;
+                DataView.value = Data;
+
                 // Open modal
                 toggleModal('open', modal_ref.value as unknown as HTMLElement);
             };
@@ -79,10 +79,20 @@
                 toggleModal('close', modal_ref.value as unknown as HTMLElement);
             };
             
+            const editTask = () => {
+                store.dispatch('setModalStoreParams', {
+                    targetedModal: TargetedModal.TaskCE,
+                    title: 'Edit Existing Project Task',
+                    isEdit: true,
+                    data: DataView.value,
+                    require: require
+                });
+            }
 
             return {
                 openModal, closeModal,
-                modal_ref, DataView
+                modal_ref, DataView,
+                editTask
             }
         }
     });

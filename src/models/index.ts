@@ -15,7 +15,7 @@ enum TargetedModal {
 interface ModalStoreParams {
     targetedModal: TargetedModal,
     require?: requires,
-    title: string,
+    title?: string,
     data: BaseModel,
     isEdit?: boolean
 }
