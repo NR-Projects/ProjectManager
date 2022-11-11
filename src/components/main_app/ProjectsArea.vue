@@ -10,34 +10,27 @@
                 <ProjectItem
                     v-for="project in projects"
                     :key="project.id"
-                    :Data="project"
-                    @edit_project="(Data) => editProjModal(Data)" />
+                    :Data="project" />
             </div>
         </div>
-        <keep-alive>
-            <ProjectModal ref="modal_comp_ref"/>
-        </keep-alive>
     </div>    
 </template>
 
 <script lang="ts">
-    import ProjectItem from '@/components/main_app/ProjectItem.vue';
-    import ProjectModal from '@/components/modals/ProjectModal.vue';
     import { defineComponent, ref } from 'vue';
-    import { Project } from '@/models';
+    import { useStore } from 'vuex';
+    import { Project, TargetedModal } from '@/models';
     import { readAllProjects } from '@/repository';
+    import ProjectItem from '@/components/main_app/ProjectItem.vue';
 
     export default defineComponent({
         name: 'ProjectsArea',
         components: {
-            ProjectItem,
-            ProjectModal
+            ProjectItem
         },
         setup() {
-            // Elements
+            const store = useStore();
             const modal_comp_ref = ref(null);
-
-            // Variables
             const projects = ref(Array<Project>());
 
             const loadProjects = () => {
@@ -47,17 +40,17 @@
             };
 
             const openModal = () => {
-                (modal_comp_ref.value as any).openModal('Add New Project', false);
-            }
-
-            const editProjModal = (Data: Project) => {
-                (modal_comp_ref.value as any).openModal('Edit Existing Project', true, Data);
+                store.dispatch('setModalStoreParams', {
+                    targetedModal: TargetedModal.ProjectCE,
+                    title: 'Add New Project',
+                    isEdit: false
+                });
             }
 
             return {
                 projects,
                 loadProjects,
-                openModal, editProjModal,
+                openModal,
                 modal_comp_ref
             };
         },

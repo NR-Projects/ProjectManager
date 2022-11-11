@@ -3,17 +3,18 @@
 
 	<ProjectModal ref="projectModalRef" />
 	<ProjectTaskModal ref="projectTaskModalRef" />
-	<TaskModal ref="TaskModalRef" />
-	<TaskViewModal ref="TaskViewModalRef" />
+	<TaskModal ref="taskModalRef" />
+	<TaskViewModal ref="taskViewModalRef" :Data="new Task('', '', 0, new Date(), new Date(), '')" />
 </template>
 
 <script lang="ts">
-	import { defineComponent, ref } from 'vue';
+	import { defineComponent, ref, watch } from 'vue';
 	import { useStore } from 'vuex';
 	import ProjectModal from '@/components/modals/ProjectModal.vue';
 	import ProjectTaskModal from '@/components/modals/ProjectTaskModal.vue';
 	import TaskModal from '@/components/modals/TaskModal.vue';
 	import TaskViewModal from '@/components/modals/TaskViewModal.vue';
+	import { ModalStoreParams, TargetedModal, Task } from './models';
 
     export default defineComponent({
         name: 'App',
@@ -25,18 +26,38 @@
 		},
 		setup() {
 			const store = useStore();
+
 			const projectModalRef = ref(null);
 			const projectTaskModalRef = ref(null);
-			const TaskModalRef = ref(null);
-			const TaskViewModalRef = ref(null);
+			const taskModalRef = ref(null);
+			const taskViewModalRef = ref(null);
 
-			console.log(store.getters.getModalStoreParams);
+			watch(() => store.getters.getModalStoreParams, function() {
+				const MSP: ModalStoreParams = store.getters.getModalStoreParams
+
+				// Check Which Modal to open
+				switch(MSP.targetedModal) {
+					case TargetedModal.ProjectCE:
+						(projectModalRef.value as any).openModal(MSP.title, MSP.isEdit!, MSP.data);
+						break;
+					case TargetedModal.ProjectTaskCE:
+						//
+						break;
+					case TargetedModal.TaskCE:
+						//
+						break;
+					case TargetedModal.TaskView:
+						//
+						break;
+				}
+			});
 
 			return {
 				projectModalRef,
 				projectTaskModalRef,
-				TaskModalRef,
-				TaskViewModalRef,
+				taskModalRef,
+				taskViewModalRef,
+				Task
 			}
 		}
     });

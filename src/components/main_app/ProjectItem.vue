@@ -12,15 +12,15 @@
             </div>
         </div>
         <div class="project-options">
-            <img @click="_editProject" src="@/assets/img/edit-item.svg" />
-            <img @click="_deleteProject" src="@/assets/img/delete-item.svg" />
+            <img @click="editProject" src="@/assets/img/edit-item.svg" />
+            <img @click="deleteProject" src="@/assets/img/delete-item.svg" />
         </div>
     </div>
 </template>
 
 <script lang="ts">
     import { defineComponent } from 'vue';
-    import { Project } from '@/models/';
+    import { Project, TargetedModal } from '@/models/';
     import { deleteProject } from '@/repository';
 
     export default defineComponent({
@@ -38,10 +38,15 @@
                 this.$store.dispatch("setProjectLoaded", this.Data);
                 this.$router.push({ name: 'project' });
             },
-            _editProject() {
-                this.$emit('edit_project', this.Data);
+            editProject() {
+                this.$store.dispatch('setModalStoreParams', {
+                    targetedModal: TargetedModal.ProjectCE,
+                    title: 'Edit Existing Project',
+                    isEdit: true,
+                    data: this.Data
+                });
             },
-            _deleteProject() {
+            deleteProject() {
                 if(window.confirm('Are you sure you want to delete this')) {
                     deleteProject(this.Data!);
                 }
