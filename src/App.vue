@@ -1,17 +1,43 @@
 <template>
 	<router-view />
 
-	<TaskViewModal />
+	<ProjectModal ref="projectModalRef" />
+	<ProjectTaskModal ref="projectTaskModalRef" />
+	<TaskModal ref="TaskModalRef" />
+	<TaskViewModal ref="TaskViewModalRef" />
 </template>
 
 <script lang="ts">
-	import { defineComponent } from 'vue';
+	import { defineComponent, ref } from 'vue';
+	import { useStore } from 'vuex';
+	import ProjectModal from '@/components/modals/ProjectModal.vue';
+	import ProjectTaskModal from '@/components/modals/ProjectTaskModal.vue';
+	import TaskModal from '@/components/modals/TaskModal.vue';
 	import TaskViewModal from '@/components/modals/TaskViewModal.vue';
 
     export default defineComponent({
         name: 'App',
 		components: {
+			ProjectModal,
+			ProjectTaskModal,
+			TaskModal,
 			TaskViewModal
+		},
+		setup() {
+			const store = useStore();
+			const projectModalRef = ref(null);
+			const projectTaskModalRef = ref(null);
+			const TaskModalRef = ref(null);
+			const TaskViewModalRef = ref(null);
+
+			console.log(store.getters.getModalStoreParams);
+
+			return {
+				projectModalRef,
+				projectTaskModalRef,
+				TaskModalRef,
+				TaskViewModalRef,
+			}
 		}
     });
 </script>
