@@ -1,6 +1,3 @@
-import { ModalStoreParams } from '@/models';
-import { useStore } from 'vuex';
-
 function toggleModal(action: string, modal: HTMLElement) {
     switch(action) {
         case 'open':
@@ -14,8 +11,4 @@ function toggleModal(action: string, modal: HTMLElement) {
     }
 }
 
-function openModal(modalStoreParams: ModalStoreParams) {
-    useStore().dispatch("setProjectLoaded", modalStoreParams);
-}
-
-export { toggleModal, openModal };
+export { toggleModal };
