@@ -13,11 +13,11 @@ enum TargetedModal {
 }
 
 interface ModalStoreParams {
-    targetedModal: TargetedModal
+    targetedModal: TargetedModal,
     require: requires,
     title: string,
-    newData: BaseModel,
-    oldData?: BaseModel
+    data: BaseModel,
+    isEdit?: boolean
 }
 
 export { BaseModel, Project, ProjectTask, Task, TaskStatus, ModalStoreParams, TargetedModal };
