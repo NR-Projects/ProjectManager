@@ -4,8 +4,8 @@
             <p>{{ Data?.name }}</p>
         </div>
         <div class="project-task-tools">
-            <img @click="_editProjectTask" src="@/assets/img/edit-item.svg" width="25" />
-            <img @click="_deleteProjectTask" src="@/assets/img/delete-item.svg" width="25" />
+            <img @click="editProjectTask" src="@/assets/img/edit-item.svg" width="25" />
+            <img @click="deleteProjectTask" src="@/assets/img/delete-item.svg" width="25" />
         </div>
         <div class="project-task-container">
             <div class="task-tools">
@@ -43,7 +43,7 @@
 
 <script lang="ts">
     import { defineComponent, ref, onMounted } from 'vue';
-    import { ProjectTask, Task } from '@/models';
+    import { ProjectTask, TargetedModal, Task } from '@/models';
     import { deleteProjectTask, readAllTasks } from '@/repository';
     import Draggable from 'vuedraggable';
     import TaskItem from '@/components/project_view/TaskItem.vue';
@@ -61,10 +61,18 @@
             ID: String
         },
         methods: {
-            _editProjectTask() {
-                this.$emit('edit_projectTask', this.Data);
+            editProjectTask() {
+                this.$store.dispatch('setModalStoreParams', {
+                    targetedModal: TargetedModal.ProjectTaskCE,
+                    title: 'Edit Existing Project Task',
+                    isEdit: true,
+                    data: this.Data,
+                    require: {
+                        projectId: this.ID
+                    }
+                });
             },
-            _deleteProjectTask() {
+            deleteProjectTask() {
                 if(window.confirm('Are you sure you want to delete this')) {
                     deleteProjectTask({ projectId: this.ID }, this.Data!);
                 }

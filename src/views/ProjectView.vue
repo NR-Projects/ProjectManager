@@ -20,45 +20,33 @@
                     v-for="projectTask in projectTasks"
                     :key="projectTask.id"
                     :ID="projectIdRef"
-                    :Data="projectTask"
-                    @edit_projectTask="(Data) => editProjTaskModal(Data)" />
+                    :Data="projectTask" />
             </div>
         </div>
     </div>
-
-    <keep-alive>
-        <ProjectTaskModal
-            ref="modal_comp_ref"
-            :ProjectID="projectIdRef" />
-    </keep-alive>
 </template>
 
 <script lang="ts">
     import { defineComponent, onMounted, ref } from 'vue';
     import { useStore } from 'vuex';
     import { useRouter } from 'vue-router';
-    import { Project, ProjectTask } from '@/models';
+    import { Project, ProjectTask, TargetedModal } from '@/models';
     import { readAllProjectTasks } from '@/repository';
     import ProjectTaskItem from '@/components/project_view/ProjectTaskItem.vue';
-    import ProjectTaskModal from '@/components/modals/ProjectTaskModal.vue';
 
     export default defineComponent({
             name: 'ProjectView',
             components: {
-                ProjectTaskItem,
-                ProjectTaskModal
+                ProjectTaskItem
             },
             setup() {
                 const store = useStore();
                 const router = useRouter();
                 const projectMounted: Project = store.getters.getprojectLoaded;
 
-                const modal_comp_ref = ref(null);
                 const projectIdRef = ref('');
-
                 const project_name = ref('');
                 const project_desc = ref('');
-
                 const projectTasks = ref(Array<ProjectTask>());
 
                 projectIdRef.value = projectMounted.id!;
@@ -70,12 +58,15 @@
                 };
 
                 const openModal = () => {
-                    (modal_comp_ref.value as any).openModal('Add New Project Task', false);
+                    store.dispatch('setModalStoreParams', {
+                        targetedModal: TargetedModal.ProjectTaskCE,
+                        title: 'Add New Project Task',
+                        isEdit: false,
+                        require: {
+                            projectId: projectIdRef.value
+                        }
+                    });
                 }
-
-                const editProjTaskModal = (Data: ProjectTask) => {
-                    (modal_comp_ref.value as any).openModal('Edit Existing Project Task', true, Data);
-                };
 
                 onMounted(() => {
                     if ( projectMounted.isNull() ) {
@@ -91,12 +82,10 @@
 
                 return {
                     openModal,
-                    modal_comp_ref,
                     projectTasks,
                     loadProjectTasks,
                     project_name, project_desc,
-                    projectIdRef,
-                    editProjTaskModal
+                    projectIdRef
                 };
             }
     });

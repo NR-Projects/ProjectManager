@@ -41,7 +41,7 @@
 						(projectModalRef.value as any).openModal(MSP.title, MSP.isEdit!, MSP.data);
 						break;
 					case TargetedModal.ProjectTaskCE:
-						//
+						(projectTaskModalRef.value as any).openModal(MSP.require!, MSP.title, MSP.isEdit!, MSP.data);
 						break;
 					case TargetedModal.TaskCE:
 						//

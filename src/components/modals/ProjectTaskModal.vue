@@ -30,14 +30,12 @@
 
     export default defineComponent({
         name: 'ProjectTaskModal',
-        props: {
-            ProjectID: String
-        },
-        setup(props) {
+        setup() {
             const modal_ref = ref(null);
             const title = ref('');
             const input_project_task_name = ref('');
 
+            let require: requires = {};
             let projectTaskLoaded: ProjectTask;
             let type: string;
 
@@ -45,17 +43,13 @@
                 // Get and process data
                 const newProjectTask: ProjectTask = new ProjectTask(input_project_task_name.value);
 
-                let r: requires = {
-                    projectId: props.ProjectID
-                }
-
                 switch (type) {
                     case 'Add':
                         {
                             // Check Validity
-                            if ( await isValid(DataType.ProjectTask, DataStatus.New, newProjectTask, undefined, r) ) {
+                            if ( await isValid(DataType.ProjectTask, DataStatus.New, newProjectTask, undefined, require) ) {
                                 // Send to firebase
-                                addProjectTask(r, newProjectTask);
+                                addProjectTask(require, newProjectTask);
                                 window.alert("New Project Task Added!");
                                 return;
                             }
@@ -64,9 +58,9 @@
                     case 'Edit':
                         {
                             // Check Validity
-                            if ( await isValid(DataType.ProjectTask, DataStatus.Existing, newProjectTask, projectTaskLoaded, r) ) {
+                            if ( await isValid(DataType.ProjectTask, DataStatus.Existing, newProjectTask, projectTaskLoaded, require) ) {
                                 // Send to firebase
-                                updateProjectTask(r, projectTaskLoaded, newProjectTask);
+                                updateProjectTask(require, projectTaskLoaded, newProjectTask);
                                 window.alert("Existing Project Task Updated!");
                                 return;
                             }
@@ -79,7 +73,8 @@
                 toggleModal('close', modal_ref.value as unknown as HTMLElement);
             };
 
-            const openModal = (_title: string, isEdit: boolean, data?: ProjectTask) => {
+            const openModal = (r: requires, _title: string, isEdit: boolean, data?: ProjectTask) => {
+                require = r;
                 title.value = _title;
                 
                 if ( isEdit ) {
