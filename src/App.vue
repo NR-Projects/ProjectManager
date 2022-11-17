@@ -1,10 +1,11 @@
 <template>
 	<router-view />
 
+	<TaskViewModal ref="taskViewModalRef" />
+
 	<ProjectModal ref="projectModalRef" />
 	<ProjectTaskModal ref="projectTaskModalRef" />
 	<TaskModal ref="taskModalRef" />
-	<TaskViewModal ref="taskViewModalRef" />
 </template>
 
 <script lang="ts">

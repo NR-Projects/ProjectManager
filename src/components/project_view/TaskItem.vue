@@ -1,6 +1,7 @@
 <template>
     <div @click="openModal" class="task-item">
         <span>{{ Data?.name }}</span>
+        <img @click="delete_task" src="@/assets/img/delete-item.svg" width="25" />
     </div>
 </template>
 
@@ -8,6 +9,7 @@
     import { defineComponent } from 'vue';
     import { useStore } from 'vuex';
     import { TargetedModal, Task } from '@/models';
+    import { deleteTask } from '@/repository';
 
     export default defineComponent({
         name: 'TaskItem',
@@ -30,8 +32,14 @@
                 });
             };
 
+            const delete_task = () => {
+                if(window.confirm('Are you sure you want to delete this')) {
+                    deleteTask({ projectId: props.ProjectID, projectTaskId: props.ProjectTaskID }, props.Data!);
+                }
+            };
+
             return {
-                openModal
+                openModal, delete_task
             };
         }
     });
@@ -43,6 +51,7 @@
         margin: 8px;
         background: #1b1b1b;
         display: flex;
+        justify-content: space-between;
         min-width: 0;
 
         & > span {
@@ -51,6 +60,10 @@
             text-overflow: ellipsis;
             margin: 15px 10px;
             color: #d1d1d1;
+        }
+
+        & > img {
+            margin-right: 5px;
         }
     }
 </style>

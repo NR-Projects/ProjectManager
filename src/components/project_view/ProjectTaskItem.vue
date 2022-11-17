@@ -35,10 +35,11 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, ref, onMounted } from 'vue';
+    import { defineComponent, ref, onMounted, watch } from 'vue';
     import { useStore } from 'vuex';
     import { ProjectTask, TargetedModal, Task } from '@/models';
-    import { deleteProjectTask, readAllTasks } from '@/repository';
+    import { deleteProjectTask, addTask, deleteTask, readAllTasks } from '@/repository';
+    import { arrayDiff } from '@/utilities';
     import Draggable from 'vuedraggable';
     import TaskItem from '@/components/project_view/TaskItem.vue';
 
@@ -73,8 +74,10 @@
         setup(props) {
             const store = useStore();
             const tasks = ref(Array<Task>());
+            let isLoadCalledFlag = false;
 
             const loadTasks = () => {
+                isLoadCalledFlag = true;
                 readAllTasks({ projectId: props.ID, projectTaskId: props.Data?.id }).then((value) => {
                     tasks.value = value;
                 })
@@ -91,6 +94,27 @@
                         }
                 });
             }
+
+            watch(tasks, (newTasks, oldTasks) => {
+                if (isLoadCalledFlag) {
+                    isLoadCalledFlag = false;
+                    return;
+                }
+
+                // Exit when this is not triggered by draggable event
+                if ( newTasks.length == oldTasks.length ) return;
+
+                // Check If Add or Delete
+                let op_task: any;
+                if ( newTasks.length > oldTasks.length ) op_task = addTask;
+                else op_task = deleteTask;
+
+                // Check for Items to Add or Delete
+                const diffItems = arrayDiff(newTasks, oldTasks);
+                diffItems.forEach(element => {
+                    op_task( { projectId: props.ID, projectTaskId: props.Data!.id! } , element );
+                });
+            })
 
             onMounted(() => {
                 loadTasks();

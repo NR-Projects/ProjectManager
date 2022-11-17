@@ -86,4 +86,15 @@ async function deleteTask(require: requires, data: Task): Promise<void> {
     });
 }
 
-export { addTask, readAllTasks, updateTask, deleteTask };
+async function removeAllTask(require: requires): Promise<void> {
+    if( !require ) return;
+    const project_id = require.projectId!;
+    const projectTask_id = require.projectTaskId!;
+
+    const q = query(getCollectionRef(project_id, projectTask_id));
+    (await getDocs(q)).forEach(async (doc) => {
+        await deleteDoc(doc.ref);
+    });
+}
+
+export { addTask, readAllTasks, updateTask, deleteTask, removeAllTask };

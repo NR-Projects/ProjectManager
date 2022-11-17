@@ -1,6 +1,6 @@
 import { addProject, readAllProjects, updateProject, deleteProject } from './ProjectRepository';
 import { addProjectTask, readAllProjectTasks, updateProjectTask, deleteProjectTask } from './ProjectTaskRepository';
-import { addTask, readAllTasks, updateTask, deleteTask } from './TaskRepository';
+import { addTask, readAllTasks, updateTask, deleteTask, removeAllTask } from './TaskRepository';
 import { requires } from './IRequirement';
 import { BaseModel } from '@/models';
 import { collection, CollectionReference, DocumentData, getDocs, getFirestore, query, where } from 'firebase/firestore';
@@ -70,6 +70,7 @@ export {
     readAllTasks,
     updateTask,
     deleteTask,
+    removeAllTask,
 
     requires,
 
