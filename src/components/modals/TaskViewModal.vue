@@ -16,7 +16,7 @@
                     </div>
                     <div class="modal-self-option">
                         <label>Task Status:</label>
-                        <select v-model="DataView.status">
+                        <select v-model="DataView.status" @change="onChange()">
                             <option disabled value="">Select Status</option>
                             <option value=0 selected>Not Yet Started</option>
                             <option value=1>In Progress</option>
@@ -31,11 +31,11 @@
                     </div>
                 </div>
                 <div class="modal-options">
-                    <div @click="editTask" class="edit-btn">
-                        <span>Edit</span>
-                    </div>
                     <div @click="closeModal" class="close-btn">
                         <span>Close</span>
+                    </div>
+                    <div @click="editTask" class="edit-btn">
+                        <span>Edit</span>
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
     import { defineComponent, ref } from 'vue';
     import { useStore } from 'vuex';
     import { TargetedModal, Task } from '@/models';
-    import { requires } from '@/repository';
+    import { requires, updateTask } from '@/repository';
     import { toggleModal } from '@/utilities';
 
     export default defineComponent({
@@ -57,7 +57,6 @@
                 if (_date)
                     return _date.toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
                 return "Invalid Date";
-                
             }
         },
         setup() {
@@ -82,15 +81,19 @@
             const editTask = () => {
                 store.dispatch('setModalStoreParams', {
                     targetedModal: TargetedModal.TaskCE,
-                    title: 'Edit Existing Project Task',
+                    title: 'Edit Existing Task',
                     isEdit: true,
                     data: DataView.value,
                     require: require
                 });
             }
 
+            const onChange = async () => {
+                await updateTask(require, DataView.value, DataView.value);
+            }
+
             return {
-                openModal, closeModal,
+                openModal, closeModal, onChange,
                 modal_ref, DataView,
                 editTask
             }

@@ -12,7 +12,7 @@
                         <label>Task Description:</label>
                         <input v-model="input_task_desc" type="text" />
                     </div>
-                    <div class="modal-input">
+                    <div class="modal-input" v-show="isAddingTask">
                         <label>Task Description:</label>
                         <select v-model="input_task_status">
                             <option disabled value="">Select Status</option>
@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, onMounted, ref } from 'vue';
+    import { defineComponent, ref } from 'vue';
     import { Task } from '@/models';
     import { toggleModal } from '@/utilities';
     import { requires, addTask, DataStatus, isValid, updateTask, DataType } from '@/repository';
@@ -49,6 +49,7 @@
             const input_task_name = ref('');
             const input_task_desc = ref('');
             const input_task_status = ref(0);
+            const isAddingTask = ref(true);
 
             let require: requires = {};
             let taskLoaded: Task;
@@ -58,13 +59,19 @@
                 // Get and process data
                 const newTask: Task = new Task(input_task_name.value, input_task_desc.value, input_task_status.value);
 
+                // Check if inputs are set
+                if (!newTask.areInputsValid()) {
+                    window.alert("Incomplete Inputs");
+                    return;
+                }
+
                 switch (type) {
                     case 'Add':
                         {
                             // Check Validity
                             if ( await isValid(DataType.Task, DataStatus.New, newTask, undefined, require) ) {
                                 // Send to firebase
-                                addTask(require, newTask);
+                                await addTask(require, newTask);
                                 window.alert("New Task Added!");
                                 return;
                             }
@@ -75,7 +82,7 @@
                             // Check Validity
                             if ( await isValid(DataType.Task, DataStatus.Existing, newTask, taskLoaded, require) ) {
                                 // Send to firebase
-                                updateTask(require, taskLoaded, newTask);
+                                await updateTask(require, taskLoaded, newTask);
                                 window.alert("Existing Task Updated!");
                                 return;
                             }
@@ -98,9 +105,11 @@
                     input_task_status.value = data!.status;
                     type = 'Edit';
                     taskLoaded = data!;
+                    isAddingTask.value = false;
                 }
                 else {
                     type = 'Add';
+                    isAddingTask.value = true;
                 }
 
                 // Open modal
@@ -117,7 +126,8 @@
                 openModal, closeModal,
                 modal_ref,
                 input_task_name, input_task_desc, input_task_status,
-                title
+                title,
+                isAddingTask
             }
         }
     });

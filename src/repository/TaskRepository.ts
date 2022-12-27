@@ -69,6 +69,7 @@ async function updateTask(require: requires, oldData: Task, newData: Task): Prom
         await updateDoc(doc.ref, {
             name: newData.name,
             desc: newData.desc,
+            status: newData.status,
             date_created: oldData.date_created,
             date_last_updated: serverTimestamp()
         });

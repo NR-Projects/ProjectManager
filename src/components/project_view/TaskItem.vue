@@ -1,14 +1,14 @@
 <template>
-    <div @click="openModal" class="task-item">
+    <div @click="OpenModal" class="task-item" ref="TaskContainer">
         <span>{{ Data?.name }}</span>
-        <img @click="delete_task" src="@/assets/img/delete-item.svg" width="25" />
+        <img @click.stop="DeleteTask" src="@/assets/img/delete-item.svg" width="25" />
     </div>
 </template>
 
 <script lang="ts">
-    import { defineComponent } from 'vue';
+    import { defineComponent, onMounted, ref } from 'vue';
     import { useStore } from 'vuex';
-    import { TargetedModal, Task } from '@/models';
+    import { TargetedModal, Task, TaskStatus } from '@/models';
     import { deleteTask } from '@/repository';
 
     export default defineComponent({
@@ -21,7 +21,9 @@
         setup(props) {
             const store = useStore();
 
-            const openModal = () => {
+            const TaskContainer = ref(null);
+
+            const OpenModal = () => {
                 store.dispatch('setModalStoreParams', {
                         targetedModal: TargetedModal.TaskView,
                         data: props.Data,
@@ -32,14 +34,14 @@
                 });
             };
 
-            const delete_task = () => {
+            const DeleteTask = () => {
                 if(window.confirm('Are you sure you want to delete this')) {
                     deleteTask({ projectId: props.ProjectID, projectTaskId: props.ProjectTaskID }, props.Data!);
                 }
             };
 
             return {
-                openModal, delete_task
+                TaskContainer, OpenModal, DeleteTask
             };
         }
     });
