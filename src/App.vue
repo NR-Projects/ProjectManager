@@ -70,6 +70,7 @@
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
+	scroll-behavior: smooth;
 
 	height: 100%;
 }
@@ -80,28 +81,28 @@ body {
 	padding: 0;
 	box-sizing: border-box;
 	display: block;
-	width: 100vw;
+	width: 100%;
 	height: 100%;
 }
 
 // Modified from w3schools.com and https://codepen.io/devstreak/pen/dMYgeO
 /* width */
 ::-webkit-scrollbar {
-	width: 10px;
+	width: 5px;
 	height: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
 	background: #f1f1f1;
-	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+	box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
 	background: #888;
-	border: 2px solid #555555;
+	border: 1px solid #555555;
 }
 
 /* Handle on hover */
