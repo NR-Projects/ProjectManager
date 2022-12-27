@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, onMounted, ref } from 'vue';
+    import { defineComponent, ref } from 'vue';
     import { useStore } from 'vuex';
-    import { TargetedModal, Task, TaskStatus } from '@/models';
+    import { TargetedModal, Task } from '@/models';
     import { deleteTask } from '@/repository';
 
     export default defineComponent({

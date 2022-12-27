@@ -1,4 +1,4 @@
-import { requires } from './IRequirement';
+import requires from './IRequirement';
 import { getAuth } from 'firebase/auth';
 import {
     getFirestore,

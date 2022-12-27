@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, onMounted, ref } from 'vue';
+    import { defineComponent, ref } from 'vue';
     import { ProjectTask } from '@/models';
     import { toggleModal } from '@/utilities';
     import { requires, addProjectTask, DataStatus, isValid, updateProjectTask, DataType } from '@/repository';
