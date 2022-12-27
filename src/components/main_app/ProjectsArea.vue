@@ -75,7 +75,7 @@
                 margin: 2rem;
                 text-align: left;
                 color: white;
-                font-size: 1.5rem;
+                font-size: 1.25rem;
             }
         }
     }

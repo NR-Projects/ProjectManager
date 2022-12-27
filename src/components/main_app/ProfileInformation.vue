@@ -1,6 +1,7 @@
 <template>
     <div id="top-bar">
         <div id="top-bar_title">
+            <img src="favicon.ico" />
             <p>Project Manager</p>
         </div>
         <div id="top-bar_user">
@@ -60,44 +61,58 @@
 </script>
 
 <style lang="scss" scoped>
-    #top-bar {
-        width: 100%;
-        height: 15%;
-        background: #2f2f2f56;
+#top-bar {
+    width: 100%;
+    height: 10%;
+    background: #2f2f2f56;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
 
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-evenly;
+#top-bar_title {
+	flex-grow: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	& > img {
+		width: 40px;
+		height: 40px;
+		margin-right: 1em;
+	}
+
+	& > p {
+		margin: 0;
+		padding: 0;
+		color: #ffffff;
+	}
+}
+
+#top-bar_user {
+    flex-grow: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+}
+
+#logout-btn {
+    padding: 8px 0px;
+    margin: 8px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    color: white;
+
+    @include auth-button($color-outside: hsl(0, 86%, 46%));
+	&:hover {
+		background-color: hsl(0, 86%, 36%);
+	}
+
+    & > img {
+        max-width: 30px;
     }
-
-    #top-bar_title {
-        font-size: 1.75rem;
-        color: #ffffff;
-    }
-
-    #top-bar_user {
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        color: #ffffff;
-    }
-
-    #logout-btn {
-        padding: 10px 0px;
-        margin: 10px 0px;
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        color: white;
-
-        @include auth-button($color-outside: hsl(0, 86%, 46%));
-		&:hover {
-			background-color: hsl(0, 86%, 36%);
-		}
-
-        & > img {
-            max-width: 30px;
-        }
-    }
+}
 </style>

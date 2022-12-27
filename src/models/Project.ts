@@ -17,6 +17,12 @@ class Project extends BaseModel {
         this.date_created = _date_created;
         this.date_last_updated = _date_last_updated;
     }
+
+    areInputsValid(): boolean {
+        if (this.name.trim().length === 0) return false;
+        if (this.desc.trim().length === 0) return false;
+        return true;
+    }
 }
 
 export default Project;

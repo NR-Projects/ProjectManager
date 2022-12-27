@@ -1,6 +1,6 @@
 <template>
     <div class="project-item card-view">
-        <p @click="goToProjectView">{{ Data?.name }}</p>
+        <p @click="GoToProjectView">{{ Data?.name }}</p>
         <div class="project-dates">
             <div>
                 <span>Date Created:</span>
@@ -12,8 +12,8 @@
             </div>
         </div>
         <div class="project-options">
-            <img @click="editProject" src="@/assets/img/edit-item.svg" />
-            <img @click="deleteProject" src="@/assets/img/delete-item.svg" />
+            <img @click="EditProject" src="@/assets/img/edit-item.svg" />
+            <img @click="DeleteProject" src="@/assets/img/delete-item.svg" />
         </div>
     </div>
 </template>
@@ -34,11 +34,11 @@
                     return _date.toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
                 return "Invalid Date";
             },
-            goToProjectView() {
+            GoToProjectView() {
                 this.$store.dispatch("setProjectLoaded", this.Data);
                 this.$router.push({ name: 'project' });
             },
-            editProject() {
+            EditProject() {
                 this.$store.dispatch('setModalStoreParams', {
                     targetedModal: TargetedModal.ProjectCE,
                     title: 'Edit Existing Project',
@@ -46,7 +46,7 @@
                     data: this.Data
                 });
             },
-            deleteProject() {
+            DeleteProject() {
                 if(window.confirm('Are you sure you want to delete this')) {
                     deleteProject(this.Data!);
                 }
@@ -59,7 +59,7 @@
     .project-item {
         width: 275px;
         height: 175px;
-        background: #e0e0e0;
+        background: #ccaaf1;
         margin: 0.5rem;
         display: flex;
         flex-direction: column;
@@ -69,7 +69,11 @@
         & > p {
             font-weight: 700;
             font-size: 1.25rem;
-            cursor: pointer;
+            
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+            }
         }
 
         & > .project-dates > div {

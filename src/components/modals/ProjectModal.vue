@@ -50,6 +50,12 @@
                 // Get and process data
                 const newProject: Project = new Project(input_project_name.value, input_project_desc.value);
 
+                // Check if inputs are set
+                if (!newProject.areInputsValid()) {
+                    window.alert("Incomplete Inputs");
+                    return;
+                }
+
                 switch (type) {
                     case 'Add':
                         {

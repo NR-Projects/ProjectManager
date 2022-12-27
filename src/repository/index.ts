@@ -7,6 +7,7 @@ import { collection, CollectionReference, DocumentData, getDocs, getFirestore, q
 import { getAuth } from 'firebase/auth';
 
 async function isValid(dataType: DataType, dataStatus: DataStatus, newData: BaseModel, data?: BaseModel, require?: requires): Promise<boolean> {
+    // Check data change if existing
     switch (dataStatus) {
         case DataStatus.New:
             break;
@@ -16,6 +17,7 @@ async function isValid(dataType: DataType, dataStatus: DataStatus, newData: Base
             break;
     }
 
+    // Check if value already exists <Getting Path>
     let _collection: CollectionReference<DocumentData>;
     switch (dataType) {
         case DataType.Project:
@@ -31,6 +33,7 @@ async function isValid(dataType: DataType, dataStatus: DataStatus, newData: Base
             break;
     }
 
+    // Check if value already exists <Lookup Database>
     let valid = true;
     const q = query(_collection!, where("name", "==", newData.name));
     (await getDocs(q)).forEach((doc) => {
@@ -38,8 +41,6 @@ async function isValid(dataType: DataType, dataStatus: DataStatus, newData: Base
         valid = false;
         return;
     });
-
-    console.log(valid)
 
     return valid;
 }
