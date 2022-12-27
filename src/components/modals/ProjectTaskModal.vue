@@ -43,6 +43,12 @@
                 // Get and process data
                 const newProjectTask: ProjectTask = new ProjectTask(input_project_task_name.value);
 
+                // Check if inputs are set
+                if (!newProjectTask.areInputsValid()) {
+                    window.alert("Incomplete Input");
+                    return;
+                }
+
                 switch (type) {
                     case 'Add':
                         {

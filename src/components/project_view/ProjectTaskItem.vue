@@ -4,16 +4,16 @@
             <p>{{ Data?.name }}</p>
         </div>
         <div class="project-task-tools">
-            <img @click="editProjectTask" src="@/assets/img/edit-item.svg" width="25" />
-            <img @click="deleteProjectTask" src="@/assets/img/delete-item.svg" width="25" />
+            <img @click="EditProjectTask" src="@/assets/img/edit-item.svg" width="25" />
+            <img @click="DeleteProjectTask" src="@/assets/img/delete-item.svg" width="25" />
         </div>
         <div class="project-task-container">
             <div class="task-tools">
-                <div @click="openModal">
+                <div @click="OpenModal">
                     <img src="@/assets/img/add-item.svg" width="25" />
                     <span>Add New Task</span>
                 </div>
-                <div @click="loadTasks">
+                <div @click="LoadTasks">
                     <img src="@/assets/img/refresh.svg" width="25" />
                 </div>
             </div>
@@ -54,7 +54,7 @@
             ID: String
         },
         methods: {
-            editProjectTask() {
+            EditProjectTask() {
                 this.$store.dispatch('setModalStoreParams', {
                     targetedModal: TargetedModal.ProjectTaskCE,
                     title: 'Edit Existing Project Task',
@@ -65,7 +65,7 @@
                     }
                 });
             },
-            deleteProjectTask() {
+            DeleteProjectTask() {
                 if(window.confirm('Are you sure you want to delete this')) {
                     deleteProjectTask({ projectId: this.ID }, this.Data!);
                 }
@@ -76,14 +76,14 @@
             const tasks = ref(Array<Task>());
             let isLoadCalledFlag = false;
 
-            const loadTasks = () => {
+            const LoadTasks = () => {
                 isLoadCalledFlag = true;
                 readAllTasks({ projectId: props.ID, projectTaskId: props.Data?.id }).then((value) => {
                     tasks.value = value;
                 })
             };
 
-            const openModal = () => {
+            const OpenModal = () => {
                 store.dispatch('setModalStoreParams', {
                         targetedModal: TargetedModal.TaskCE,
                         title: 'Add New Task',
@@ -117,12 +117,11 @@
             })
 
             onMounted(() => {
-                loadTasks();
+                LoadTasks();
             });
 
             return {
-                tasks, loadTasks,
-                openModal
+                tasks, LoadTasks, OpenModal
             };
         }
     });

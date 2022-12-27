@@ -8,6 +8,11 @@ class ProjectTask extends BaseModel{
 
         this.id = _id;
     }
+
+    areInputsValid(): boolean {
+        if (this.name.trim().length === 0) return false;
+        return true;
+    }
 }
 
 export default ProjectTask;
