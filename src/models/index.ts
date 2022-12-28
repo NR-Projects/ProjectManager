@@ -20,4 +20,5 @@ interface ModalStoreParams {
     isEdit?: boolean
 }
 
+
 export { BaseModel, Project, ProjectTask, Task, TaskStatus, ModalStoreParams, TargetedModal };

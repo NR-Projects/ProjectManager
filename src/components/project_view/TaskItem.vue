@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, ref } from 'vue';
+    import { defineComponent, onMounted, onUpdated, ref } from 'vue';
     import { useStore } from 'vuex';
-    import { TargetedModal, Task } from '@/models';
+    import { TargetedModal, Task, TaskStatus } from '@/models';
     import { deleteTask } from '@/repository';
 
     export default defineComponent({
@@ -22,6 +22,33 @@
             const store = useStore();
 
             const TaskContainer = ref(null);
+
+            onMounted(() => {
+                UpdateBackgroundColor();
+            });
+
+            onUpdated(() => {
+                UpdateBackgroundColor();
+            });
+
+            const UpdateBackgroundColor = () => {
+                let color_code = "#010101";
+                let taskStatus = Number(props!.Data!.status);
+
+                switch(taskStatus) {
+                    case TaskStatus.NotYetStarted:
+                        color_code = "#630000";
+                        break;
+                    case TaskStatus.InProgress:
+                        color_code = "#454545";
+                        break;
+                    case TaskStatus.Finished:
+                        color_code = "#00631e";
+                        break;
+                }
+
+                (TaskContainer.value! as HTMLElement).style.backgroundColor = color_code;
+            };
 
             const OpenModal = () => {
                 store.dispatch('setModalStoreParams', {

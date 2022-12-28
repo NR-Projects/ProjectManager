@@ -73,14 +73,15 @@
         },
         setup(props) {
             const store = useStore();
-            const tasks = ref(Array<Task>());
+            let tasks = ref(Array<Task>());
             let isLoadCalledFlag = false;
 
-            const LoadTasks = () => {
+            const LoadTasks = async () => {
                 isLoadCalledFlag = true;
-                readAllTasks({ projectId: props.ID, projectTaskId: props.Data?.id }).then((value) => {
+                await readAllTasks({ projectId: props.ID, projectTaskId: props.Data?.id }).then((value) => {
                     tasks.value = value;
                 })
+                console.log(tasks.value);
             };
 
             const OpenModal = () => {

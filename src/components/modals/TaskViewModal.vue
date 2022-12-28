@@ -1,7 +1,7 @@
 <template>
     <Teleport to="#app">
         <div ref="modal_ref" class="modal">
-            <div class="modal-view-content">
+            <div class="modal-view-content" style="outline: 3px solid" v-bind:style="outlineColor">
                 <p class="modal-title">{{ DataView.name }}</p>
                 <div class="modal-meta">
                     <div class="modal-view-infos">
@@ -46,7 +46,7 @@
 <script lang="ts">
     import { defineComponent, ref } from 'vue';
     import { useStore } from 'vuex';
-    import { TargetedModal, Task } from '@/models';
+    import { TargetedModal, Task, TaskStatus } from '@/models';
     import { requires, updateTask } from '@/repository';
     import { toggleModal } from '@/utilities';
 
@@ -62,8 +62,29 @@
         setup() {
             const store = useStore();
             const modal_ref = ref(null);
+            const outlineColor = ref({});
+
             const DataView = ref(new Task('', '', 0));
             let require: requires = {};
+
+            const UpdateUI = () => {
+                let color_code = '';
+                let taskStatus = Number(DataView.value.status);
+
+                switch(taskStatus) {
+                    case TaskStatus.NotYetStarted:
+                        color_code = "#630000";
+                        break;
+                    case TaskStatus.InProgress:
+                        color_code = "#454545";
+                        break;
+                    case TaskStatus.Finished:
+                        color_code = "#00631e";
+                        break;
+                }
+
+                outlineColor.value = { 'outline-color': color_code };
+            };
 
             const openModal = (r: requires, Data: Task) => {
                 require = r;
@@ -71,6 +92,9 @@
 
                 // Open modal
                 toggleModal('open', modal_ref.value as unknown as HTMLElement);
+
+                // Update UI
+                UpdateUI();
             };
 
             const closeModal = () => {
@@ -90,12 +114,16 @@
 
             const onChange = async () => {
                 await updateTask(require, DataView.value, DataView.value);
+
+                // Update UI
+                UpdateUI();
             }
 
             return {
                 openModal, closeModal, onChange,
                 modal_ref, DataView,
-                editTask
+                editTask,
+                outlineColor
             }
         }
     });
