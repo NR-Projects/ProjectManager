@@ -1,4 +1,5 @@
 # project-manager
+Well, not really a project manager but just a simple shitty kanban shit :>
 
 ## Project setup
 ```
